@@ -1,0 +1,17 @@
+{
+  "name": "permaweb-widget",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/twilson63/permaweb-widget.git",
+  "author": "Tom Wilson <tom@hyper.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.15.16",
+    "esbuild-svelte": "^0.7.3"
+  },
+  "dependencies": {
+    "crocks": "^0.12.4",
+    "svelte": "^3.53.1",
+    "twind": "^0.16.18"
+  }
+}
