@@ -104,19 +104,19 @@
   // node_modules/crocks/core/compose.js
   var require_compose = __commonJS({
     "node_modules/crocks/core/compose.js"(exports, module) {
-      function compose(f, g) {
+      function compose2(f, g) {
         return function(x) {
           return f(g(x));
         };
       }
-      module.exports = compose;
+      module.exports = compose2;
     }
   });
 
   // node_modules/crocks/combinators/composeB.js
   var require_composeB = __commonJS({
     "node_modules/crocks/combinators/composeB.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var curry = require_curry();
       var isFunction = require_isFunction();
       function composeB(f, g) {
@@ -125,7 +125,7 @@
             "composeB: Functions required for first two arguments"
           );
         }
-        return compose(f, g);
+        return compose2(f, g);
       }
       module.exports = curry(composeB);
     }
@@ -327,21 +327,21 @@
           return "Writer";
         }
       };
-      var type = function(type2) {
-        return _types[type2] || _types["unk"];
+      var type3 = function(type4) {
+        return _types[type4] || _types["unk"];
       };
       var proxy = function(t2, ctx) {
         return { type: function() {
-          return type(t2)(ctx);
+          return type3(t2)(ctx);
         } };
       };
       var typeFn = function(t2, ver, ctx) {
-        var typeStr = type(t2)(ctx);
+        var typeStr = type3(t2)(ctx);
         return "crocks/" + typeStr + "@" + (ver || 0);
       };
       module.exports = {
         proxy,
-        type,
+        type: type3,
         typeFn
       };
     }
@@ -351,7 +351,7 @@
   var require_type = __commonJS({
     "node_modules/crocks/core/type.js"(exports, module) {
       var isFunction = require_isFunction();
-      function type(x) {
+      function type3(x) {
         if (x) {
           if (isFunction(x.type)) {
             return x.type();
@@ -359,7 +359,7 @@
         }
         return {}.toString.call(x).slice(8, -1);
       }
-      module.exports = type;
+      module.exports = type3;
     }
   });
 
@@ -368,10 +368,10 @@
     "node_modules/crocks/core/isSameType.js"(exports, module) {
       var curry = require_curry();
       var isFunction = require_isFunction();
-      var type = require_type();
+      var type3 = require_type();
       function isSameType(x, y) {
-        var tX = type(x);
-        var tY = type(y);
+        var tX = type3(x);
+        var tY = type3(y);
         return tX === tY || isFunction(x) && x.name === tY || isFunction(y) && y.name === tX;
       }
       module.exports = curry(isSameType);
@@ -589,9 +589,9 @@
   // node_modules/crocks/core/isObject.js
   var require_isObject = __commonJS({
     "node_modules/crocks/core/isObject.js"(exports, module) {
-      var toString = Object.prototype.toString;
+      var toString2 = Object.prototype.toString;
       function isObject(x) {
-        return !!x && toString.call(x) === "[object Object]";
+        return !!x && toString2.call(x) === "[object Object]";
       }
       module.exports = isObject;
     }
@@ -692,7 +692,7 @@
       var isSameType = require_isSameType();
       var isSame = require_isSame();
       var hasAlg = require_hasAlg();
-      var type = require_type();
+      var type3 = require_type();
       var fl = require_flNames();
       var comp = function(a2, b) {
         return a2.valueOf() === b.valueOf();
@@ -716,13 +716,13 @@
       };
       function deepEquals(a2, b) {
         for (var key in a2) {
-          if (!equals(a2[key], b[key])) {
+          if (!equals3(a2[key], b[key])) {
             return false;
           }
         }
         return true;
       }
-      function equals(a2, b) {
+      function equals3(a2, b) {
         if (isSame(a2, b)) {
           return true;
         }
@@ -732,9 +732,9 @@
         if (hasAlg("equals", a2)) {
           return (b[fl.equals] || b.equals).call(b, a2);
         }
-        return (strats[type(a2)] || comp)(a2, b);
+        return (strats[type3(a2)] || comp)(a2, b);
       }
-      module.exports = equals;
+      module.exports = equals3;
     }
   });
 
@@ -743,12 +743,12 @@
     "node_modules/crocks/core/isEmpty.js"(exports, module) {
       var isObject = require_isObject();
       var isMonoid = require_isMonoid();
-      var equals = require_equals();
+      var equals3 = require_equals();
       var fl = require_flNames();
       function isEmpty(x) {
         if (isMonoid(x)) {
           var empty2 = x.constructor[fl["empty"]] || x.constructor["empty"] || x["empty"];
-          return equals(x, empty2());
+          return equals3(x, empty2());
         }
         if (isObject(x)) {
           return !Object.keys(x).length;
@@ -855,14 +855,14 @@
           return (acc === null ? true : acc) && fn(x);
         };
       };
-      function hasProps(keys, x) {
-        if (!isFoldable(keys)) {
+      function hasProps(keys4, x) {
+        if (!isFoldable(keys4)) {
           throw new TypeError(err);
         }
         if (isNil(x)) {
           return false;
         }
-        var result = keys.reduce(
+        var result = keys4.reduce(
           every(hasKey(x)),
           null
         );
@@ -892,8 +892,8 @@
       var isInteger = require_isInteger();
       var isNil = require_isNil();
       var isString = require_isString();
-      function hasPropPath(keys, target) {
-        if (!isArray(keys)) {
+      function hasPropPath(keys4, target) {
+        if (!isArray(keys4)) {
           throw new TypeError(
             "hasPropPath: Array of Non-empty Strings or Integers required for first argument"
           );
@@ -902,8 +902,8 @@
           return false;
         }
         var value = target;
-        for (var i2 = 0; i2 < keys.length; i2++) {
-          var key = keys[i2];
+        for (var i2 = 0; i2 < keys4.length; i2++) {
+          var key = keys4[i2];
           if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
             throw new TypeError(
               "hasPropPath: Array of Non-empty Strings or Integers required for first argument"
@@ -1456,7 +1456,7 @@
   var require_pathEq = __commonJS({
     "node_modules/crocks/predicates/pathEq.js"(exports, module) {
       var curry = require_curry();
-      var equals = require_equals();
+      var equals3 = require_equals();
       var isArray = require_isArray();
       var isDefined = require_isDefined();
       var isEmpty = require_isEmpty();
@@ -1467,16 +1467,16 @@
         return name + ": First argument must be an Array of non-empty Strings or Integers";
       };
       function fn(name) {
-        function pathEq2(keys, value, target) {
-          if (!isArray(keys)) {
+        function pathEq2(keys4, value, target) {
+          if (!isArray(keys4)) {
             throw new TypeError(err(name));
           }
           if (isNil(target)) {
             return false;
           }
           var acc = target;
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            var key = keys[i2];
+          for (var i2 = 0; i2 < keys4.length; i2++) {
+            var key = keys4[i2];
             if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
               throw new TypeError(err(name));
             }
@@ -1488,7 +1488,7 @@
               return false;
             }
           }
-          return equals(acc, value);
+          return equals3(acc, value);
         }
         return curry(pathEq2);
       }
@@ -1513,8 +1513,8 @@
         return name + ": First argument must be an Array of non-empty Strings or Integers";
       };
       function fn(name) {
-        function pathSatisfies2(keys, pred, x) {
-          if (!isArray(keys)) {
+        function pathSatisfies2(keys4, pred, x) {
+          if (!isArray(keys4)) {
             throw new TypeError(err(name));
           }
           if (!isPredOrFunc(pred)) {
@@ -1526,8 +1526,8 @@
             return false;
           }
           var target = x;
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            var key = keys[i2];
+          for (var i2 = 0; i2 < keys4.length; i2++) {
+            var key = keys4[i2];
             if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
               throw new TypeError(err(name));
             }
@@ -1550,13 +1550,13 @@
   var require_propEq = __commonJS({
     "node_modules/crocks/predicates/propEq.js"(exports, module) {
       var curry = require_curry();
-      var equals = require_equals();
+      var equals3 = require_equals();
       var isDefined = require_isDefined();
       var isEmpty = require_isEmpty();
       var isInteger = require_isInteger();
       var isNil = require_isNil();
       var isString = require_isString();
-      function propEq(key, value, x) {
+      function propEq3(key, value, x) {
         if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
           throw new TypeError(
             "propEq: Non-empty String or Integer required for first argument"
@@ -1566,9 +1566,9 @@
           return false;
         }
         var target = x[key];
-        return isDefined(target) && equals(target, value);
+        return isDefined(target) && equals3(target, value);
       }
-      module.exports = curry(propEq);
+      module.exports = curry(propEq3);
     }
   });
 
@@ -1732,8 +1732,8 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Arrow");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Arrow");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
@@ -1752,25 +1752,25 @@
           return "Arrow" + _inspect(runWith);
         };
         var id = _id;
-        var _map = function(fn) {
+        var _map2 = function(fn) {
           return Arrow(function(x) {
             return fn(runWith(x));
           });
         };
-        function compose(method) {
+        function compose2(method) {
           return function(m) {
             if (!isSameType(Arrow, m)) {
               throw new TypeError("Arrow." + method + ": Arrow required");
             }
-            return _map(m.runWith);
+            return _map2(m.runWith);
           };
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Arrow." + method + ": Function required");
             }
-            return _map(fn);
+            return _map2(fn);
           };
         }
         function contramap(method) {
@@ -1824,20 +1824,20 @@
         return obj = {
           inspect,
           toString: inspect,
-          type,
+          type: type3,
           runWith,
           id,
           first,
           second,
           both,
-          compose: compose("compose"),
-          map: map("map"),
+          compose: compose2("compose"),
+          map: map3("map"),
           contramap: contramap("contramap"),
           promap: promap("promap")
-        }, obj[fl.id] = id, obj[fl.compose] = compose(fl.compose), obj[fl.map] = map(fl.map), obj[fl.contramap] = contramap(fl.contramap), obj[fl.promap] = promap(fl.promap), obj["@@type"] = _type, obj.constructor = Arrow, obj;
+        }, obj[fl.id] = id, obj[fl.compose] = compose2(fl.compose), obj[fl.map] = map3(fl.map), obj[fl.contramap] = contramap(fl.contramap), obj[fl.promap] = promap(fl.promap), obj["@@type"] = _type, obj.constructor = Arrow, obj;
       }
       Arrow.id = _id;
-      Arrow.type = type;
+      Arrow.type = type3;
       Arrow[fl.id] = _id;
       Arrow["@@type"] = _type;
       Arrow["@@implements"] = _implements(
@@ -1897,7 +1897,7 @@
             throw new TypeError("Array." + name + ": Must wrap Applys of the same type");
           }
           if (isArray(m)) {
-            return ap(acc, map(function(v) {
+            return ap(acc, map3(function(v) {
               return concat([v]);
             }, m));
           }
@@ -1911,7 +1911,7 @@
           return b && isFunction(i2);
         }, true);
       };
-      var map = function(f, m) {
+      var map3 = function(f, m) {
         return m.map(function(x) {
           return f(x);
         });
@@ -1921,7 +1921,7 @@
           throw new TypeError("Array.ap: Second Array must all be functions");
         }
         return m.reduce(function(acc, f) {
-          return acc.concat(map(f, x));
+          return acc.concat(map3(f, x));
         }, []);
       }
       function chain(f, m) {
@@ -1993,7 +1993,7 @@
         chain,
         fold,
         foldMap,
-        map,
+        map: map3,
         sequence,
         set,
         traverse,
@@ -2032,11 +2032,11 @@
       var VERSION = 5;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Async");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Async");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var array = require_array();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var once = require_once();
       var unit = require_unit();
       var isArray = require_isArray();
@@ -2050,7 +2050,7 @@
           return acc && isSameType(Async2, x);
         }, true);
       };
-      var _of = function(x) {
+      var _of2 = function(x) {
         return Async2(function(_4, resolve) {
           return resolve(x);
         });
@@ -2139,7 +2139,7 @@
         if (!isFunction(fn)) {
           throw new TypeError("Async: Function required");
         }
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
           return "Async" + _inspect(fn);
         };
@@ -2202,8 +2202,8 @@
           }
           return Async2(function(reject, resolve) {
             return fork(
-              compose(resolve, l),
-              compose(reject, r2)
+              compose2(resolve, l),
+              compose2(reject, r2)
             );
           });
         }
@@ -2213,18 +2213,18 @@
           }
           return Async2(function(reject, resolve) {
             return fork(
-              compose(resolve, l),
-              compose(resolve, r2)
+              compose2(resolve, l),
+              compose2(resolve, r2)
             );
           });
         }
-        function map(method) {
+        function map3(method) {
           return function(mapFn) {
             if (!isFunction(mapFn)) {
               throw new TypeError("Async." + method + ": Function required");
             }
             return Async2(function(reject, resolve) {
-              return fork(reject, compose(resolve, mapFn));
+              return fork(reject, compose2(resolve, mapFn));
             });
           };
         }
@@ -2235,8 +2235,8 @@
             }
             return Async2(function(reject, resolve) {
               return fork(
-                compose(reject, l),
-                compose(resolve, r2)
+                compose2(reject, l),
+                compose2(resolve, r2)
               );
             });
           };
@@ -2277,7 +2277,7 @@
             var rejectOnce = once(reject);
             function resolveBoth() {
               if (!cancelled && fnDone && valueDone) {
-                compose(resolve, apFn)(value);
+                compose2(resolve, apFn)(value);
               }
             }
             var fnCancel = fork(rejectOnce, function(f) {
@@ -2353,7 +2353,7 @@
           toPromise,
           inspect,
           toString: inspect,
-          type,
+          type: type3,
           swap,
           race,
           coalesce,
@@ -2361,17 +2361,17 @@
           of: of2,
           alt: alt("alt"),
           bimap: bimap("bimap"),
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain"),
           bichain
-        }, obj[fl.of] = of2, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Async2, obj;
+        }, obj[fl.of] = of2, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Async2, obj;
       }
-      Async2.of = _of;
-      Async2.type = type;
-      Async2[fl.of] = _of;
+      Async2.of = _of2;
+      Async2.type = type3;
+      Async2[fl.of] = _of2;
       Async2["@@type"] = _type;
       Async2.Rejected = Rejected;
-      Async2.Resolved = _of;
+      Async2.Resolved = _of2;
       Async2.fromPromise = fromPromise;
       Async2.fromNode = fromNode;
       Async2.all = all;
@@ -2388,7 +2388,7 @@
   var require_Const = __commonJS({
     "node_modules/crocks/Const/index.js"(exports, module) {
       var VERSION = 3;
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _inspect = require_inspect();
       var _type = require_types().type("Const");
@@ -2424,12 +2424,12 @@
         if (!isFunction(T)) {
           throw new TypeError("Const: TypeRep required for construction");
         }
-        var type = constant(_type(typeOrName(T)));
+        var type3 = constant(_type(typeOrName(T)));
         var typeString = typeFn("Const", VERSION, typeOrName(T));
         function empty2(method) {
           return function() {
             if (!validMonoid(T)) {
-              throw new TypeError(type() + "." + method + ": Must be fixed to a Monoid");
+              throw new TypeError(type3() + "." + method + ": Must be fixed to a Monoid");
             }
             return Const(getEmpty(T)());
           };
@@ -2437,7 +2437,7 @@
         function of2(method) {
           return function() {
             if (!validMonoid(T)) {
-              throw new TypeError(type() + "." + method + ": Must be fixed to a Monoid");
+              throw new TypeError(type3() + "." + method + ": Must be fixed to a Monoid");
             }
             return Const(getEmpty(T)());
           };
@@ -2445,38 +2445,38 @@
         function Const(value) {
           var obj;
           if (!isSameType(T, value)) {
-            throw new TypeError(type() + ": " + typeOrName(T) + " required");
+            throw new TypeError(type3() + ": " + typeOrName(T) + " required");
           }
-          var inspect = constant("" + type() + _inspect(value));
+          var inspect = constant("" + type3() + _inspect(value));
           var valueOf = constant(value);
-          var equals = function(m) {
-            return isSameType(Const, m) && _equals(value, m.valueOf());
+          var equals3 = function(m) {
+            return isSameType(Const, m) && _equals2(value, m.valueOf());
           };
           function concat(method) {
             return function(m) {
               if (!isSemigroup(value)) {
-                throw new TypeError(type() + "." + method + ": Must be fixed to a Semigroup");
+                throw new TypeError(type3() + "." + method + ": Must be fixed to a Semigroup");
               }
               if (!isSameType(Const, m)) {
-                throw new TypeError(type() + "." + method + ": " + type() + " required");
+                throw new TypeError(type3() + "." + method + ": " + type3() + " required");
               }
               return Const(value.concat(m.valueOf()));
             };
           }
-          function map(method) {
+          function map3(method) {
             return function(fn) {
               if (!isFunction(fn)) {
-                throw new TypeError(type() + "." + method + ": Function required");
+                throw new TypeError(type3() + "." + method + ": Function required");
               }
               return Const(value);
             };
           }
           function ap(m) {
             if (!isSemigroup(value)) {
-              throw new TypeError(type() + ".ap: Must be fixed to a Semigroup");
+              throw new TypeError(type3() + ".ap: Must be fixed to a Semigroup");
             }
             if (!isSameType(Const, m)) {
-              throw new TypeError(type() + ".ap: " + type() + " required");
+              throw new TypeError(type3() + ".ap: " + type3() + " required");
             }
             return Const(value.concat(m.valueOf()));
           }
@@ -2484,18 +2484,18 @@
             inspect,
             toString: inspect,
             valueOf,
-            type,
+            type: type3,
             ap,
-            equals,
+            equals: equals3,
             concat: concat("concat"),
             empty: empty2("empty"),
-            map: map("map"),
+            map: map3("map"),
             of: of2("of")
-          }, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2(fl.empty), obj[fl.equals] = equals, obj[fl.map] = map(fl.map), obj[fl.of] = of2(fl.of), obj["@@type"] = typeString, obj.constructor = Const, obj;
+          }, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2(fl.empty), obj[fl.equals] = equals3, obj[fl.map] = map3(fl.map), obj[fl.of] = of2(fl.of), obj["@@type"] = typeString, obj.constructor = Const, obj;
         }
         Const.empty = empty2("empty");
         Const.of = of2("of");
-        Const.type = type;
+        Const.type = type3;
         Const[fl.empty] = empty2(fl.empty);
         Const[fl.of] = of2(fl.of);
         Const["@@type"] = typeString;
@@ -2600,15 +2600,15 @@
     "node_modules/crocks/Either/index.js"(exports, module) {
       var VERSION = 4;
       var _defineUnion = require_defineUnion();
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _innerConcat = require_innerConcat();
       var _inspect = require_inspect();
-      var type = require_types().type("Either");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Either");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var apOrFunc = require_apOrFunc();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isArray = require_isArray();
       var isApplicative = require_isApplicative();
       var isApply = require_isApply();
@@ -2622,14 +2622,14 @@
       var _either = _defineUnion({ Left: ["a"], Right: ["b"] });
       var Left = _either.Left;
       var Right = _either.Right;
-      Either.Left = compose(Either, Left);
-      Either.Right = compose(Either, Right);
-      var _of = Either.Right;
+      Either.Left = compose2(Either, Left);
+      Either.Right = compose2(Either, Right);
+      var _of2 = Either.Right;
       function runSequence(x) {
         if (!(isApply(x) || isArray(x))) {
           throw new TypeError("Either.sequence: Must wrap an Apply");
         }
-        return x.map(_of);
+        return x.map(_of2);
       }
       function Either(u) {
         var obj;
@@ -2637,21 +2637,21 @@
           throw new TypeError("Either: Must wrap something, try using Left or Right constructors");
         }
         var x = !_either.includes(u) ? Right(u) : u;
-        var equals = function(m) {
+        var equals3 = function(m) {
           return isSameType(Either, m) && either(
             function(x2) {
               return m.either(function(y) {
-                return _equals(y, x2);
+                return _equals2(y, x2);
               }, constant(false));
             },
             function(x2) {
               return m.either(constant(false), function(y) {
-                return _equals(y, x2);
+                return _equals2(y, x2);
               });
             }
           );
         };
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
           return either(
             function(l) {
@@ -2687,8 +2687,8 @@
             throw new TypeError("Either.swap: Requires both left and right functions");
           }
           return either(
-            compose(Either.Right, f),
-            compose(Either.Left, g)
+            compose2(Either.Right, f),
+            compose2(Either.Left, g)
           );
         }
         function coalesce(f, g) {
@@ -2708,12 +2708,12 @@
           }
           return m;
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Either." + method + ": Function required");
             }
-            return either(Either.Left, compose(Either.Right, fn));
+            return either(Either.Left, compose2(Either.Right, fn));
           };
         }
         function bimap(method) {
@@ -2722,8 +2722,8 @@
               throw new TypeError("Either." + method + ": Requires both left and right functions");
             }
             return either(
-              compose(Either.Left, f),
-              compose(Either.Right, g)
+              compose2(Either.Left, f),
+              compose2(Either.Right, g)
             );
           };
         }
@@ -2771,7 +2771,7 @@
           }
           var af = apOrFunc(f);
           return either(
-            compose(af, Either.Left),
+            compose2(af, Either.Left),
             runSequence
           );
         }
@@ -2787,7 +2787,7 @@
             );
           }
           var af = apOrFunc(f);
-          var m = either(compose(af, Either.Left), fn);
+          var m = either(compose2(af, Either.Left), fn);
           if (!(isApply(m) || isArray(m))) {
             throw new TypeError(
               "Either.traverse: Both functions must return an Apply of the same type"
@@ -2795,18 +2795,18 @@
           }
           return either(
             constant(m),
-            constant(m.map(_of))
+            constant(m.map(_of2))
           );
         }
         return obj = {
           inspect,
           toString: inspect,
           either,
-          type,
+          type: type3,
           swap,
           coalesce,
           bichain,
-          equals,
+          equals: equals3,
           ap,
           of: of2,
           sequence,
@@ -2815,12 +2815,12 @@
           bimap: bimap("bimap"),
           concat: concat("concat"),
           chain: chain("chain"),
-          map: map("map")
-        }, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Either, obj;
+          map: map3("map")
+        }, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Either, obj;
       }
-      Either.of = _of;
-      Either.type = type;
-      Either[fl.of] = _of;
+      Either.of = _of2;
+      Either.type = type3;
+      Either[fl.of] = _of2;
       Either["@@type"] = _type;
       Either["@@implements"] = _implements(
         ["alt", "ap", "bimap", "chain", "concat", "equals", "map", "of", "traverse"]
@@ -2838,8 +2838,8 @@
       var curry = require_curry();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var type = require_types().type("Equiv");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Equiv");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var _empty = function() {
         return Equiv(function() {
@@ -2890,7 +2890,7 @@
         return obj = {
           inspect,
           toString: inspect,
-          type,
+          type: type3,
           compareWith,
           valueOf,
           empty: empty2,
@@ -2899,7 +2899,7 @@
         }, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj[fl.contramap] = contramap(fl.contramap), obj["@@type"] = _type, obj.constructor = Equiv, obj;
       }
       Equiv.empty = _empty;
-      Equiv.type = type;
+      Equiv.type = type3;
       Equiv[fl.empty] = _empty;
       Equiv["@@type"] = _type;
       Equiv["@@implements"] = _implements(
@@ -2913,19 +2913,19 @@
   var require_Identity = __commonJS({
     "node_modules/crocks/Identity/index.js"(exports, module) {
       var VERSION = 3;
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _innerConcat = require_innerConcat();
       var _inspect = require_inspect();
-      var type = require_types().type("Identity");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Identity");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isArray = require_isArray();
       var isApply = require_isApply();
       var isApplicative = require_isApplicative();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var _of = Identity;
+      var _of2 = Identity;
       function Identity(x) {
         var obj;
         if (!arguments.length) {
@@ -2934,9 +2934,9 @@
         var valueOf = function() {
           return x;
         };
-        var of2 = _of;
-        var equals = function(m) {
-          return isSameType(Identity, m) && _equals(x, m.valueOf());
+        var of2 = _of2;
+        var equals3 = function(m) {
+          return isSameType(Identity, m) && _equals2(x, m.valueOf());
         };
         var inspect = function() {
           return "Identity" + _inspect(x);
@@ -2949,7 +2949,7 @@
             return _innerConcat("Identity." + method, m)(x);
           };
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Identity." + method + ": Function required");
@@ -2986,7 +2986,7 @@
           if (!(isApply(x) || isArray(x))) {
             throw new TypeError("Identity.sequence: Must wrap an Apply");
           }
-          return x.map(_of);
+          return x.map(_of2);
         }
         function traverse(f, fn) {
           if (!(isApplicative(f) || isFunction(f))) {
@@ -3005,26 +3005,26 @@
               "Identity.traverse: Both functions must return an Apply of the same type"
             );
           }
-          return m.map(_of);
+          return m.map(_of2);
         }
         return obj = {
           inspect,
           toString: inspect,
           valueOf,
-          type,
-          equals,
+          type: type3,
+          equals: equals3,
           ap,
           of: of2,
           sequence,
           traverse,
           concat: concat("concat"),
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Identity, obj;
+        }, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Identity, obj;
       }
-      Identity.of = _of;
-      Identity.type = type;
-      Identity[fl.of] = _of;
+      Identity.of = _of2;
+      Identity.type = type3;
+      Identity[fl.of] = _of2;
       Identity["@@type"] = _type;
       Identity["@@implements"] = _implements(
         ["ap", "chain", "concat", "equals", "map", "of", "traverse"]
@@ -3039,32 +3039,32 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("IO");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("IO");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var _of = function(x) {
+      var _of2 = function(x) {
         return IO(function() {
           return x;
         });
       };
-      function IO(run2) {
+      function IO(run3) {
         var obj;
-        if (!isFunction(run2)) {
+        if (!isFunction(run3)) {
           throw new TypeError("IO: Must wrap a function");
         }
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
-          return "IO" + _inspect(run2);
+          return "IO" + _inspect(run3);
         };
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("IO." + method + ": Function required");
             }
-            return IO(compose(fn, run2));
+            return IO(compose2(fn, run3));
           };
         }
         function ap(m) {
@@ -3072,7 +3072,7 @@
             throw new TypeError("IO.ap: IO required");
           }
           return IO(function() {
-            var fn = run2();
+            var fn = run3();
             if (!isFunction(fn)) {
               throw new TypeError("IO.ap: Wrapped value must be a function");
             }
@@ -3085,7 +3085,7 @@
               throw new TypeError("IO." + method + ": Function required");
             }
             return IO(function() {
-              var m = fn(run2());
+              var m = fn(run3());
               if (!isSameType(IO, m)) {
                 throw new TypeError("IO." + method + ": Function must return an IO");
               }
@@ -3096,17 +3096,17 @@
         return obj = {
           inspect,
           toString: inspect,
-          run: run2,
-          type,
+          run: run3,
+          type: type3,
           ap,
           of: of2,
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = IO, obj;
+        }, obj[fl.of] = of2, obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = IO, obj;
       }
-      IO.of = _of;
-      IO.type = type;
-      IO[fl.of] = _of;
+      IO.of = _of2;
+      IO.type = type3;
+      IO[fl.of] = _of2;
       IO["@@type"] = _type;
       IO["@@implements"] = _implements(
         ["ap", "chain", "map", "of"]
@@ -3120,15 +3120,15 @@
     "node_modules/crocks/core/Maybe.js"(exports, module) {
       var VERSION = 4;
       var _defineUnion = require_defineUnion();
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _innerConcat = require_innerConcat();
       var _inspect = require_inspect();
-      var type = require_types().type("Maybe");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Maybe");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var apOrFunc = require_apOrFunc();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isApplicative = require_isApplicative();
       var isApply = require_isApply();
       var isArray = require_isArray();
@@ -3145,17 +3145,17 @@
       var _maybe = _defineUnion({ Nothing: [], Just: ["a"] });
       var Nothing = _maybe.Nothing;
       var Just = _maybe.Just;
-      Maybe.Nothing = compose(Maybe, Nothing);
-      Maybe.Just = compose(Maybe, Just);
-      var _of = compose(Maybe, Just);
-      var _zero = compose(Maybe, Nothing);
+      Maybe.Nothing = compose2(Maybe, Nothing);
+      Maybe.Just = compose2(Maybe, Just);
+      var _of2 = compose2(Maybe, Just);
+      var _zero = compose2(Maybe, Nothing);
       function runSequence(x) {
         if (!(isApply(x) || isArray(x))) {
           throw new TypeError(
             "Maybe.sequence: Must wrap an Apply"
           );
         }
-        return x.map(_of);
+        return x.map(_of2);
       }
       function Maybe(u) {
         var obj;
@@ -3163,17 +3163,17 @@
           throw new TypeError("Maybe: Must wrap something, try using Nothing or Just constructors");
         }
         var x = !_maybe.includes(u) ? Just(u) : u;
-        var of2 = _of;
+        var of2 = _of2;
         var zero = _zero;
         var option = function(n) {
           return either(constant(n), identity2);
         };
-        var equals = function(m) {
+        var equals3 = function(m) {
           return isSameType(Maybe, m) && either(
             constant(m.either(constant(true), constant(false))),
             function(x2) {
               return m.either(constant(false), function(y) {
-                return _equals(y, x2);
+                return _equals2(y, x2);
               });
             }
           );
@@ -3223,14 +3223,14 @@
           }
           return m;
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Maybe." + method + ": Function required");
             }
             return either(
               Maybe.Nothing,
-              compose(Maybe.Just, fn)
+              compose2(Maybe.Just, fn)
             );
           };
         }
@@ -3277,7 +3277,7 @@
           }
           var af = apOrFunc(f);
           return either(
-            compose(af, Maybe.Nothing),
+            compose2(af, Maybe.Nothing),
             runSequence
           );
         }
@@ -3293,7 +3293,7 @@
             );
           }
           var af = apOrFunc(f);
-          var m = either(compose(af, Maybe.Nothing), fn);
+          var m = either(compose2(af, Maybe.Nothing), fn);
           if (!(isApply(m) || isArray(m))) {
             throw new TypeError(
               "Maybe.traverse: Both functions must return an Apply of the same type"
@@ -3301,7 +3301,7 @@
           }
           return either(
             constant(m),
-            constant(m.map(_of))
+            constant(m.map(_of2))
           );
         }
         return obj = {
@@ -3309,8 +3309,8 @@
           toString: inspect,
           either,
           option,
-          type,
-          equals,
+          type: type3,
+          equals: equals3,
           bichain,
           coalesce,
           zero,
@@ -3321,13 +3321,13 @@
           alt: alt("alt"),
           chain: chain("chain"),
           concat: concat("concat"),
-          map: map("map")
-        }, obj[fl.zero] = zero, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.alt] = alt(fl.alt), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Maybe, obj;
+          map: map3("map")
+        }, obj[fl.zero] = zero, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.alt] = alt(fl.alt), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Maybe, obj;
       }
-      Maybe.of = _of;
+      Maybe.of = _of2;
       Maybe.zero = _zero;
-      Maybe.type = type;
-      Maybe[fl.of] = _of;
+      Maybe.type = type3;
+      Maybe[fl.of] = _of2;
       Maybe[fl.zero] = _zero;
       Maybe["@@type"] = _type;
       Maybe["@@implements"] = _implements(
@@ -3341,11 +3341,11 @@
   var require_List = __commonJS({
     "node_modules/crocks/core/List.js"(exports, module) {
       var VERSION = 4;
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("List");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("List");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var array = require_array();
       var apOrFunc = require_apOrFunc();
@@ -3371,7 +3371,7 @@
       var ref = require_Maybe();
       var Nothing = ref.Nothing;
       var Just = ref.Just;
-      var _of = function(x) {
+      var _of2 = function(x) {
         return List([x]);
       };
       var _empty = function() {
@@ -3427,7 +3427,7 @@
             return y.concat(m.valueOf());
           };
         }
-        var of2 = _of;
+        var of2 = _of2;
         var valueOf = function() {
           return xs.slice();
         };
@@ -3439,14 +3439,14 @@
         var head = function() {
           return xs.length ? Just(xs[0]) : Nothing();
         };
-        var tail2 = function() {
+        var tail3 = function() {
           return xs.length && xs.length > 1 ? Just(List(xs.slice(1))) : Nothing();
         };
         var cons = function(x2) {
           return List([x2].concat(xs));
         };
-        var equals = function(m) {
-          return isSameType(List, m) && _equals(xs, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(List, m) && _equals2(xs, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -3456,7 +3456,7 @@
             return List(xs.concat(m.valueOf()));
           };
         }
-        function reduce(method) {
+        function reduce2(method) {
           return function(fn, i2) {
             if (!isFunction(fn)) {
               throw new TypeError("List." + method + ": Function required for first argument");
@@ -3512,7 +3512,7 @@
             return semi.concat(val);
           }, head2) : head2;
         }
-        function filter2(method) {
+        function filter3(method) {
           return function(pred) {
             if (!isPredOrFunc(pred)) {
               throw new TypeError("List." + method + ": Pred or predicate function required");
@@ -3543,7 +3543,7 @@
             )
           );
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("List." + method + ": Function required");
@@ -3612,10 +3612,10 @@
           valueOf,
           toArray,
           head,
-          tail: tail2,
+          tail: tail3,
           cons,
-          type,
-          equals,
+          type: type3,
+          equals: equals3,
           empty: empty2,
           reduceRight,
           fold,
@@ -3626,16 +3626,16 @@
           sequence,
           traverse,
           concat: concat("concat"),
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain"),
-          reduce: reduce("reduce"),
-          filter: filter2("filter")
-        }, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj[fl.reduce] = reduce(fl.reduce), obj[fl.filter] = filter2(fl.filter), obj["@@type"] = _type, obj.constructor = List, obj;
+          reduce: reduce2("reduce"),
+          filter: filter3("filter")
+        }, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj[fl.reduce] = reduce2(fl.reduce), obj[fl.filter] = filter3(fl.filter), obj["@@type"] = _type, obj.constructor = List, obj;
       }
-      List.of = _of;
+      List.of = _of2;
       List.empty = _empty;
-      List.type = type;
-      List[fl.of] = _of;
+      List.type = type3;
+      List[fl.of] = _of2;
       List[fl.empty] = _empty;
       List["@@type"] = _type;
       List.fromArray = fromArray;
@@ -3664,11 +3664,11 @@
   var require_Pair = __commonJS({
     "node_modules/crocks/core/Pair.js"(exports, module) {
       var VERSION = 4;
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Pair");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Pair");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isApplicative = require_isApplicative();
       var isApply = require_isApply();
@@ -3699,8 +3699,8 @@
           }
           return fn(fst(), snd());
         }
-        function equals(m) {
-          return isSameType(Pair, m) && _equals(m.fst(), fst()) && _equals(m.snd(), snd());
+        function equals3(m) {
+          return isSameType(Pair, m) && _equals2(m.fst(), fst()) && _equals2(m.snd(), snd());
         }
         function concat(method) {
           return function(m) {
@@ -3729,7 +3729,7 @@
           }
           return Pair(g(r2), f(l));
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Pair." + method + ": Function required");
@@ -3833,21 +3833,21 @@
           fst,
           snd,
           toArray,
-          type,
+          type: type3,
           merge: merge2,
-          equals,
+          equals: equals3,
           swap,
           ap,
           sequence,
           traverse,
           concat: concat("concat"),
-          map: map("map"),
+          map: map3("map"),
           bimap: bimap("bimap"),
           chain: chain("chain"),
           extend: extend("extend")
-        }, obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.bimap] = bimap(fl.bimap), obj[fl.chain] = chain(fl.chain), obj[fl.extend] = extend(fl.extend), obj["@@type"] = _type, obj.constructor = Pair, obj;
+        }, obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.bimap] = bimap(fl.bimap), obj[fl.chain] = chain(fl.chain), obj[fl.extend] = extend(fl.extend), obj["@@type"] = _type, obj.constructor = Pair, obj;
       }
-      Pair.type = type;
+      Pair.type = type3;
       Pair["@@type"] = _type;
       Pair["@@implements"] = _implements(
         ["ap", "bimap", "chain", "concat", "extend", "equals", "map", "traverse"]
@@ -3869,10 +3869,10 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Pred");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Pred");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
       var _empty = function() {
@@ -3910,14 +3910,14 @@
             if (!isFunction(fn)) {
               throw new TypeError("Pred." + method + ": Function required");
             }
-            return Pred(compose(runWith, fn));
+            return Pred(compose2(runWith, fn));
           };
         }
         return obj = {
           inspect,
           toString: inspect,
           runWith,
-          type,
+          type: type3,
           valueOf,
           empty: empty2,
           concat: concat("concat"),
@@ -3925,7 +3925,7 @@
         }, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj[fl.contramap] = contramap(fl.contramap), obj["@@type"] = _type, obj.constructor = Pred, obj;
       }
       Pred.empty = _empty;
-      Pred.type = type;
+      Pred.type = type3;
       Pred[fl.empty] = _empty;
       Pred["@@type"] = _type;
       Pred["@@implements"] = _implements(
@@ -3948,13 +3948,13 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Reader");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Reader");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var _of = function(x) {
+      var _of2 = function(x) {
         return Reader(function() {
           return x;
         });
@@ -3975,16 +3975,16 @@
         if (!arguments.length || !isFunction(runWith)) {
           throw new TypeError("Reader: Must wrap a function");
         }
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
           return "Reader" + _inspect(runWith);
         };
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Reader." + method + ": Function required");
             }
-            return Reader(compose(fn, runWith));
+            return Reader(compose2(fn, runWith));
           };
         }
         function ap(m) {
@@ -4017,17 +4017,17 @@
           inspect,
           toString: inspect,
           runWith,
-          type,
+          type: type3,
           ap,
           of: of2,
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Reader, obj;
+        }, obj[fl.of] = of2, obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Reader, obj;
       }
-      Reader.of = _of;
+      Reader.of = _of2;
       Reader.ask = ask2;
-      Reader.type = type;
-      Reader[fl.of] = _of;
+      Reader.type = type3;
+      Reader[fl.of] = _of2;
       Reader["@@type"] = _type;
       Reader["@@implements"] = _implements(
         ["ap", "chain", "map", "of"]
@@ -4053,7 +4053,7 @@
         if (!isMonad(Monad)) {
           throw new TypeError("ReaderT: Monad required for construction");
         }
-        var type = function() {
+        var type3 = function() {
           return _type + "( " + Monad.type() + " )";
         };
         var typeString = _typeString + "( " + Monad["@@type"] + " )";
@@ -4069,11 +4069,11 @@
           if (isFunction(fn)) {
             return ReaderT2(Monad.of).map(fn);
           }
-          throw new TypeError(type() + ".ask: No argument or function required");
+          throw new TypeError(type3() + ".ask: No argument or function required");
         }
         function lift2(m) {
           if (!isSameType(Monad, m)) {
-            throw new TypeError(type() + ".lift: " + Monad.type() + " instance required");
+            throw new TypeError(type3() + ".lift: " + Monad.type() + " instance required");
           }
           return ReaderT2(function() {
             return m;
@@ -4081,12 +4081,12 @@
         }
         function liftFn(fn, x) {
           if (!isFunction(fn)) {
-            throw new TypeError(type() + ".liftFn: " + Monad.type() + " returning function required");
+            throw new TypeError(type3() + ".liftFn: " + Monad.type() + " returning function required");
           }
           return ReaderT2(function() {
             var m = fn(x);
             if (!isSameType(Monad, m)) {
-              throw new TypeError(type() + ".liftFn: " + Monad.type() + " returning function required");
+              throw new TypeError(type3() + ".liftFn: " + Monad.type() + " returning function required");
             }
             return m;
           });
@@ -4094,21 +4094,21 @@
         function ReaderT2(wrapped) {
           var obj;
           if (!isFunction(wrapped)) {
-            throw new TypeError(type() + ": " + Monad.type() + " returning function required");
+            throw new TypeError(type3() + ": " + Monad.type() + " returning function required");
           }
           var inspect = function() {
-            return "" + type() + _inspect(wrapped);
+            return "" + type3() + _inspect(wrapped);
           };
           function runWith(x) {
             var result = wrapped(x);
             if (!isSameType(Monad, result)) {
-              throw new TypeError(type() + ": " + Monad.type() + " must be returned by wrapped function");
+              throw new TypeError(type3() + ": " + Monad.type() + " must be returned by wrapped function");
             }
             return result;
           }
-          function map(fn) {
+          function map3(fn) {
             if (!isFunction(fn)) {
-              throw new TypeError(type() + ".map: Function required");
+              throw new TypeError(type3() + ".map: Function required");
             }
             return ReaderT2(function(e) {
               return runWith(e).map(fn);
@@ -4116,7 +4116,7 @@
           }
           function ap(m) {
             if (!isSameType(ReaderT2, m)) {
-              throw new TypeError(type() + ".ap: " + type() + " required");
+              throw new TypeError(type3() + ".ap: " + type3() + " required");
             }
             return ReaderT2(function(e) {
               return runWith(e).ap(m.runWith(e));
@@ -4124,14 +4124,14 @@
           }
           function chain(fn) {
             if (!isFunction(fn)) {
-              throw new TypeError(type() + ".chain: " + type() + " returning function required");
+              throw new TypeError(type3() + ".chain: " + type3() + " returning function required");
             }
             return ReaderT2(
               function(e) {
                 return runWith(e).chain(function(inner) {
                   var m = fn(inner);
                   if (!isSameType(ReaderT2, m)) {
-                    throw new TypeError(type() + ".chain: Function must return a " + type());
+                    throw new TypeError(type3() + ".chain: Function must return a " + type3());
                   }
                   return m.runWith(e);
                 });
@@ -4141,15 +4141,15 @@
           return obj = {
             inspect,
             toString: inspect,
-            type,
+            type: type3,
             runWith,
             of: of2,
-            map,
+            map: map3,
             ap,
             chain
-          }, obj[fl.of] = of2, obj[fl.map] = map, obj[fl.chain] = chain, obj["@@type"] = typeString, obj.constructor = ReaderT2, obj;
+          }, obj[fl.of] = of2, obj[fl.map] = map3, obj[fl.chain] = chain, obj["@@type"] = typeString, obj.constructor = ReaderT2, obj;
         }
-        ReaderT2.type = type;
+        ReaderT2.type = type3;
         ReaderT2.of = of2;
         ReaderT2.ask = ask2;
         ReaderT2.lift = lift2;
@@ -4170,15 +4170,15 @@
     "node_modules/crocks/Result/index.js"(exports, module) {
       var VERSION = 4;
       var _defineUnion = require_defineUnion();
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _innerConcat = require_innerConcat();
       var _inspect = require_inspect();
-      var type = require_types().type("Result");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Result");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var apOrFunc = require_apOrFunc();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isApplicative = require_isApplicative();
       var isApply = require_isApply();
       var isArray = require_isArray();
@@ -4191,9 +4191,9 @@
         };
       };
       var _result = _defineUnion({ Err: ["a"], Ok: ["b"] });
-      Result.Err = compose(Result, _result.Err);
-      Result.Ok = compose(Result, _result.Ok);
-      var _of = Result.Ok;
+      Result.Err = compose2(Result, _result.Err);
+      Result.Ok = compose2(Result, _result.Ok);
+      var _of2 = Result.Ok;
       var concatApErr = function(m) {
         return function(x) {
           return Result.Err(m.either(
@@ -4217,7 +4217,7 @@
             "Result.sequence: Must wrap an Apply"
           );
         }
-        return x.map(_of);
+        return x.map(_of2);
       }
       function Result(u) {
         var obj;
@@ -4225,21 +4225,21 @@
           throw new TypeError("Result: Must wrap something, try using Err or Ok constructors");
         }
         var x = !_result.includes(u) ? _result.Ok(u) : u;
-        var equals = function(m) {
+        var equals3 = function(m) {
           return isSameType(Result, m) && either(
             function(x2) {
               return m.either(function(y) {
-                return _equals(y, x2);
+                return _equals2(y, x2);
               }, constant(false));
             },
             function(x2) {
               return m.either(constant(false), function(y) {
-                return _equals(y, x2);
+                return _equals2(y, x2);
               });
             }
           );
         };
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
           return either(
             function(l) {
@@ -4275,8 +4275,8 @@
             throw new TypeError("Result.swap: Requires both left and right functions");
           }
           return either(
-            compose(Result.Ok, f),
-            compose(Result.Err, g)
+            compose2(Result.Ok, f),
+            compose2(Result.Err, g)
           );
         }
         function coalesce(f, g) {
@@ -4296,14 +4296,14 @@
           }
           return m;
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Result." + method + ": Function required");
             }
             return either(
               Result.Err,
-              compose(Result.Ok, fn)
+              compose2(Result.Ok, fn)
             );
           };
         }
@@ -4313,8 +4313,8 @@
               throw new TypeError("Result." + method + ": Requires both left and right functions");
             }
             return either(
-              compose(Result.Err, f),
-              compose(Result.Ok, g)
+              compose2(Result.Err, f),
+              compose2(Result.Ok, g)
             );
           };
         }
@@ -4371,7 +4371,7 @@
           }
           var af = apOrFunc(f);
           return either(
-            compose(af, Result.Err),
+            compose2(af, Result.Err),
             runSequence
           );
         }
@@ -4387,20 +4387,20 @@
             );
           }
           var af = apOrFunc(f);
-          var m = either(compose(af, Result.Err), fn);
+          var m = either(compose2(af, Result.Err), fn);
           if (!(isApply(m) || isArray(m))) {
             throw new TypeError("Result.traverse: Both functions must return an Apply of the same type");
           }
           return either(
             constant(m),
-            constant(m.map(_of))
+            constant(m.map(_of2))
           );
         }
         return obj = {
           inspect,
           toString: inspect,
-          equals,
-          type,
+          equals: equals3,
+          type: type3,
           either,
           swap,
           coalesce,
@@ -4412,13 +4412,13 @@
           alt: alt("alt"),
           bimap: bimap("bimap"),
           concat: concat("concat"),
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Result, obj;
+        }, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.alt] = alt(fl.alt), obj[fl.bimap] = bimap(fl.bimap), obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Result, obj;
       }
-      Result.of = _of;
-      Result.type = type;
-      Result[fl.of] = _of;
+      Result.of = _of2;
+      Result.type = type3;
+      Result[fl.of] = _of2;
       Result["@@type"] = _type;
       Result["@@implements"] = _implements(
         ["alt", "ap", "bimap", "chain", "concat", "equals", "map", "of", "traverse"]
@@ -4458,7 +4458,7 @@
         var innerFullType = Monad["@@type"];
         var outerType = _type() + "( " + innerType + " )";
         var typeString = __type + "( " + innerFullType + " )";
-        var type = function() {
+        var type3 = function() {
           return outerType;
         };
         function Star(runWith) {
@@ -4470,7 +4470,7 @@
             return "" + outerType + _inspect(runWith);
           };
           var id = _id;
-          function compose(method) {
+          function compose2(method) {
             return function(s) {
               if (!isSameType(Star, s)) {
                 throw new TypeError(outerType + "." + method + ": " + outerType + " required");
@@ -4490,7 +4490,7 @@
               });
             };
           }
-          function map(method) {
+          function map3(method) {
             return function(fn) {
               if (!isFunction(fn)) {
                 throw new TypeError(outerType + "." + method + ": Function required");
@@ -4576,20 +4576,20 @@
           return obj = {
             inspect,
             toString: inspect,
-            type,
+            type: type3,
             runWith,
             id,
             first,
             second,
             both,
-            compose: compose("compose"),
+            compose: compose2("compose"),
             contramap: contramap("contramap"),
-            map: map("map"),
+            map: map3("map"),
             promap: promap("promap")
-          }, obj[fl.id] = id, obj[fl.compose] = compose(fl.compose), obj[fl.contramap] = contramap(fl.contramap), obj[fl.map] = map(fl.map), obj[fl.promap] = promap(fl.promap), obj["@@type"] = typeString, obj.constructor = Star, obj;
+          }, obj[fl.id] = id, obj[fl.compose] = compose2(fl.compose), obj[fl.contramap] = contramap(fl.contramap), obj[fl.map] = map3(fl.map), obj[fl.promap] = promap(fl.promap), obj["@@type"] = typeString, obj.constructor = Star, obj;
         }
         Star.id = _id;
-        Star.type = type;
+        Star.type = type3;
         Star[fl.id] = _id;
         Star["@@type"] = typeString;
         Star["@@implements"] = _implements(
@@ -4606,16 +4606,16 @@
     "node_modules/crocks/core/Unit.js"(exports, module) {
       var VERSION = 2;
       var _implements = require_implements();
-      var type = require_types().type("Unit");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Unit");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var _of = Unit;
+      var _of2 = Unit;
       var _empty = Unit;
       function Unit() {
         var obj;
-        var equals = function(m) {
+        var equals3 = function(m) {
           return isSameType(Unit, m);
         };
         var inspect = function() {
@@ -4624,7 +4624,7 @@
         var valueOf = function() {
           return void 0;
         };
-        var of2 = _of;
+        var of2 = _of2;
         var empty2 = _empty;
         function concat(method) {
           return function(m) {
@@ -4634,7 +4634,7 @@
             return Unit();
           };
         }
-        function map(method) {
+        function map3(method) {
           return function(fn) {
             if (!isFunction(fn)) {
               throw new TypeError("Unit." + method + ": Function required");
@@ -4660,20 +4660,20 @@
           inspect,
           toString: inspect,
           valueOf,
-          type,
-          equals,
+          type: type3,
+          equals: equals3,
           empty: empty2,
           ap,
           of: of2,
           concat: concat("concat"),
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.empty] = empty2, obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Unit, obj;
+        }, obj[fl.of] = of2, obj[fl.empty] = empty2, obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = Unit, obj;
       }
-      Unit.of = _of;
+      Unit.of = _of2;
       Unit.empty = _empty;
-      Unit.type = type;
-      Unit[fl.of] = _of;
+      Unit.type = type3;
+      Unit[fl.of] = _of2;
       Unit[fl.empty] = _empty;
       Unit["@@type"] = _type;
       Unit["@@implements"] = _implements(
@@ -4689,14 +4689,14 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("State");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("State");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var Pair = require_Pair();
       var Unit = require_Unit();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var _of = function(x) {
+      var _of2 = function(x) {
         return State(function(s) {
           return Pair(x, s);
         });
@@ -4727,7 +4727,7 @@
         if (!isFunction(fn)) {
           throw new TypeError("State: Must wrap a function in the form (s -> Pair a s)");
         }
-        var of2 = _of;
+        var of2 = _of2;
         var inspect = function() {
           return "State" + _inspect(fn);
         };
@@ -4752,7 +4752,7 @@
           var pair = runWith(s, "evalWith");
           return pair.fst();
         }
-        function map(method) {
+        function map3(method) {
           return function(fn2) {
             if (!isFunction(fn2)) {
               throw new TypeError("State." + method + ": Function required");
@@ -4797,14 +4797,14 @@
           runWith,
           execWith,
           evalWith,
-          type,
+          type: type3,
           ap,
           of: of2,
-          map: map("map"),
+          map: map3("map"),
           chain: chain("chain")
-        }, obj[fl.of] = of2, obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = State, obj;
+        }, obj[fl.of] = of2, obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = _type, obj.constructor = State, obj;
       }
-      State.of = _of;
+      State.of = _of2;
       State.get = get;
       State.modify = modify;
       State.put = function(x) {
@@ -4812,8 +4812,8 @@
           return x;
         });
       };
-      State.type = type;
-      State[fl.of] = _of;
+      State.type = type3;
+      State[fl.of] = _of2;
       State["@@type"] = _type;
       State["@@implements"] = _implements(
         ["ap", "chain", "map", "of"]
@@ -4827,7 +4827,7 @@
     "node_modules/crocks/Tuple/index.js"(exports, module) {
       var VERSION = 1;
       var _implements = require_implements();
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _inspect = require_inspect();
       var _type = require_types().type("Tuple");
       var typeFn = require_types().typeFn;
@@ -4846,10 +4846,10 @@
           throw new TypeError("Tuple: First argument must be an integer");
         }
         var tupleLength = constant(n);
-        var type = constant(_type(n));
+        var type3 = constant(_type(n));
         var typeString = typeFn("Tuple", VERSION, n);
         var withProps = function(fn) {
-          fn.type = type;
+          fn.type = type3;
           fn.tupleLength = tupleLength;
           fn["@@type"] = typeString;
           fn["@@implements"] = _implements(["map", "concat", "equals"]);
@@ -4920,7 +4920,7 @@
           var inspect = function() {
             return n2 + "-Tuple(" + parts.map(_inspect).join(",") + " )";
           };
-          function map(method) {
+          function map3(method) {
             return function(fn) {
               if (!isFunction(fn)) {
                 throw new TypeError(n2 + "-Tuple." + method + ": Function required");
@@ -4931,12 +4931,12 @@
               );
             };
           }
-          var equals = function(m) {
-            return isSameType({ type }, m) && _equals(parts, m.toArray());
+          var equals3 = function(m) {
+            return isSameType({ type: type3 }, m) && _equals2(parts, m.toArray());
           };
           function concat(method) {
             return function(t2) {
-              if (!isSameType({ type }, t2)) {
+              if (!isSameType({ type: type3 }, t2)) {
                 throw new TypeError(n2 + "-Tuple." + method + ": Tuple of the same length required");
               }
               var a2 = t2.toArray();
@@ -5001,11 +5001,11 @@
             mapAll,
             toArray,
             tupleLength,
-            type,
-            equals,
-            map: map("map"),
+            type: type3,
+            equals: equals3,
+            map: map3("map"),
             concat: concat("concat")
-          }, obj[fl.map] = map(fl.map), obj[fl.concat] = concat(fl.concat), obj[fl.equals] = equals, obj["@@type"] = typeString, obj.constructor = Tuple, obj;
+          }, obj[fl.map] = map3(fl.map), obj[fl.concat] = concat(fl.concat), obj[fl.equals] = equals3, obj["@@type"] = typeString, obj.constructor = Tuple, obj;
         }
       }
       module.exports = _Tuple;
@@ -5023,7 +5023,7 @@
   var require_Writer = __commonJS({
     "node_modules/crocks/Writer/index.js"(exports, module) {
       var VERSION = 2;
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var _implements = require_implements();
       var _inspect = require_inspect();
       var __type = require_types().type("Writer")();
@@ -5042,7 +5042,7 @@
         if (!isMonoid(Monoid)) {
           throw new TypeError("Writer: Monoid required for construction");
         }
-        var _of = function(x) {
+        var _of2 = function(x) {
           return Writer(Monoid.empty().valueOf(), x);
         };
         var _type = constant(__type + "( " + Monoid.type() + " )");
@@ -5052,10 +5052,10 @@
           if (arguments.length !== 2) {
             throw new TypeError("Writer: Log entry and a value required");
           }
-          var type = _type;
-          var of2 = _of;
-          var equals = function(m) {
-            return isSameType(Writer, m) && _equals(m.valueOf(), val);
+          var type3 = _type;
+          var of2 = _of2;
+          var equals3 = function(m) {
+            return isSameType(Writer, m) && _equals2(m.valueOf(), val);
           };
           var valueOf = constant(val);
           var log = constant(Monoid(entry));
@@ -5063,7 +5063,7 @@
           var read = function() {
             return Pair(log(), val);
           };
-          function map(method) {
+          function map3(method) {
             return function(fn) {
               if (!isFunction(fn)) {
                 throw new TypeError("Writer." + method + ": Function required");
@@ -5101,17 +5101,17 @@
             read,
             valueOf,
             log,
-            type,
-            equals,
+            type: type3,
+            equals: equals3,
             ap,
             of: of2,
             chain: chain("chain"),
-            map: map("map")
-          }, obj[fl.of] = of2, obj[fl.equals] = equals, obj[fl.map] = map(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = typeString, obj.constructor = Writer, obj;
+            map: map3("map")
+          }, obj[fl.of] = of2, obj[fl.equals] = equals3, obj[fl.map] = map3(fl.map), obj[fl.chain] = chain(fl.chain), obj["@@type"] = typeString, obj.constructor = Writer, obj;
         }
-        Writer.of = _of;
+        Writer.of = _of2;
         Writer.type = _type;
-        Writer[fl.of] = _of;
+        Writer[fl.of] = _of2;
         Writer["@@type"] = typeString;
         Writer["@@implements"] = _implements(
           ["ap", "chain", "equals", "map", "of"]
@@ -5138,7 +5138,7 @@
         var result = Object.keys(m).reduce(rejectUnit(m), {});
         return Object.keys(x).reduce(rejectUnit(x), result);
       }
-      function filter2(f, m) {
+      function filter3(f, m) {
         return Object.keys(m).reduce(function(acc, key) {
           if (f(m[key])) {
             acc[key] = m[key];
@@ -5146,7 +5146,7 @@
           return acc;
         }, {});
       }
-      function map(f, m) {
+      function map3(f, m) {
         return Object.keys(m).reduce(function(acc, key) {
           acc[key] = f(m[key]);
           return acc;
@@ -5166,8 +5166,8 @@
       }
       module.exports = {
         assign,
-        filter: filter2,
-        map,
+        filter: filter3,
+        map: map3,
         set,
         unset
       };
@@ -5241,30 +5241,30 @@
   // node_modules/crocks/core/curryN.js
   var require_curryN = __commonJS({
     "node_modules/crocks/core/curryN.js"(exports, module) {
-      function curryN(n, fn) {
+      function curryN3(n, fn) {
         return function() {
           var xs = [], len = arguments.length;
           while (len--)
             xs[len] = arguments[len];
           var args = xs.length ? xs : [void 0];
           var remaining = Math.floor(n) - args.length;
-          return remaining > 0 ? curryN(remaining, Function.bind.apply(fn, [null].concat(args))) : fn.apply(null, args.slice(0, n));
+          return remaining > 0 ? curryN3(remaining, Function.bind.apply(fn, [null].concat(args))) : fn.apply(null, args.slice(0, n));
         };
       }
-      module.exports = curryN;
+      module.exports = curryN3;
     }
   });
 
   // node_modules/crocks/helpers/binary.js
   var require_binary = __commonJS({
     "node_modules/crocks/helpers/binary.js"(exports, module) {
-      var curryN = require_curryN();
+      var curryN3 = require_curryN();
       var isFunction = require_isFunction();
       function binary(fn) {
         if (!isFunction(fn)) {
           throw new TypeError("binary: Function required");
         }
-        return curryN(2, fn);
+        return curryN3(2, fn);
       }
       module.exports = binary;
     }
@@ -5286,7 +5286,7 @@
           return g.call(null, f.apply(null, args));
         };
       }
-      function compose() {
+      function compose2() {
         var args = [], len = arguments.length;
         while (len--)
           args[len] = arguments[len];
@@ -5298,12 +5298,12 @@
         if (!isFunction(head)) {
           throw new TypeError(err);
         }
-        var tail2 = fns.slice(1).concat(function(x) {
+        var tail3 = fns.slice(1).concat(function(x) {
           return x;
         });
-        return tail2.reduce(applyPipe, head);
+        return tail3.reduce(applyPipe, head);
       }
-      module.exports = compose;
+      module.exports = compose2;
     }
   });
 
@@ -5328,7 +5328,7 @@
         if (fns.length === 1) {
           return head;
         }
-        var tail2 = fns.slice(1).reduce(function(comp, fn) {
+        var tail3 = fns.slice(1).reduce(function(comp, fn) {
           if (!isFunction(fn)) {
             throw new TypeError(err);
           }
@@ -5342,7 +5342,7 @@
           return x;
         });
         return function() {
-          return tail2(head.apply(null, arguments));
+          return tail3(head.apply(null, arguments));
         };
       }
       module.exports = composeK;
@@ -5379,10 +5379,10 @@
         if (!isFunction(head)) {
           throw new TypeError(err);
         }
-        var tail2 = fns.slice(1).concat(function(x) {
+        var tail3 = fns.slice(1).concat(function(x) {
           return x;
         });
-        return tail2.reduce(applyPipe, head);
+        return tail3.reduce(applyPipe, head);
       }
       module.exports = composeP;
     }
@@ -5456,10 +5456,10 @@
     "node_modules/crocks/helpers/defaultTo.js"(exports, module) {
       var curry = require_curry();
       var isNil = require_isNil();
-      function defaultTo(def, val) {
+      function defaultTo3(def, val) {
         return isNil(val) ? def : val;
       }
-      module.exports = curry(defaultTo);
+      module.exports = curry(defaultTo3);
     }
   });
 
@@ -5555,16 +5555,16 @@
         return name + ": Array of Non-empty Strings or Integers required for second argument";
       };
       function fn(name) {
-        function getPathOr2(def, keys, target) {
-          if (!isArray(keys)) {
+        function getPathOr2(def, keys4, target) {
+          if (!isArray(keys4)) {
             throw new TypeError(errFn(name));
           }
           if (isNil(target)) {
             return def;
           }
           var value = target;
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            var key = keys[i2];
+          for (var i2 = 0; i2 < keys4.length; i2++) {
+            var key = keys4[i2];
             if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
               throw new TypeError(errFn(name));
             }
@@ -5595,7 +5595,7 @@
       var isArray = require_isArray();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var map = array.map;
+      var map3 = array.map;
       var ap = array.ap;
       function liftA2(fn, x, y) {
         if (!isFunction(fn)) {
@@ -5605,7 +5605,7 @@
           throw new TypeError("liftA2: Applys of same type required for last two arguments");
         }
         if (isArray(x)) {
-          return ap(y, map(fn, x));
+          return ap(y, map3(fn, x));
         }
         return x.map(fn).ap(y);
       }
@@ -5622,7 +5622,7 @@
       var isArray = require_isArray();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
-      var map = array.map;
+      var map3 = array.map;
       var ap = array.ap;
       function liftA3(fn, x, y, z) {
         if (!isFunction(fn)) {
@@ -5631,7 +5631,7 @@
           throw new TypeError("liftA3: Applys of same type required for last three arguments");
         }
         if (isArray(x)) {
-          return ap(z, ap(y, map(fn, x)));
+          return ap(z, ap(y, map3(fn, x)));
         }
         return x.map(fn).ap(y).ap(z);
       }
@@ -5644,7 +5644,7 @@
     "node_modules/crocks/helpers/liftN.js"(exports, module) {
       var array = require_array();
       var curry = require_curry();
-      var curryN = require_curryN();
+      var curryN3 = require_curryN();
       var isApply = require_isApply();
       var isArray = require_isArray();
       var isFunction = require_isFunction();
@@ -5668,7 +5668,7 @@
         if (!isFunction(fn)) {
           throw new TypeError("liftN: Function required for second argument");
         }
-        return curryN(n, function() {
+        return curryN3(n, function() {
           var args = [], len = arguments.length;
           while (len--)
             args[len] = arguments[len];
@@ -5678,7 +5678,7 @@
           return args.slice(1, n).reduce(
             applyAp,
             args[0].map(function(x) {
-              return curryN(n, fn)(x);
+              return curryN3(n, fn)(x);
             })
           );
         });
@@ -5777,14 +5777,14 @@
   // node_modules/crocks/core/mconcatMap.js
   var require_mconcatMap = __commonJS({
     "node_modules/crocks/core/mconcatMap.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var foldWith = function(m) {
         return function(x, y) {
           return x.concat(m(y));
         };
       };
       function mconcatMap(M, f, xs) {
-        return xs.reduce(foldWith(compose(M, f)), M.empty());
+        return xs.reduce(foldWith(compose2(M, f)), M.empty());
       }
       module.exports = mconcatMap;
     }
@@ -5908,7 +5908,7 @@
   var require_nAry = __commonJS({
     "node_modules/crocks/helpers/nAry.js"(exports, module) {
       var curry = require_curry();
-      var curryN = require_curryN();
+      var curryN3 = require_curryN();
       var isFunction = require_isFunction();
       var isNumber = require_isNumber();
       function nAry(num, fn) {
@@ -5918,7 +5918,7 @@
         if (!isFunction(fn)) {
           throw new TypeError("nAry: Function required for second argument");
         }
-        return curryN(num, fn);
+        return curryN3(num, fn);
       }
       module.exports = curry(nAry);
     }
@@ -5946,19 +5946,19 @@
       var curry = require_curry();
       var isFoldable = require_isFoldable();
       var isObject = require_isObject();
-      function omitKeys(keys, obj) {
+      function omitKeys(keys4, obj) {
         return function(acc, key) {
           var obj$1;
-          return keys.indexOf(key) === -1 && obj[key] !== void 0 ? Object.assign(acc, (obj$1 = {}, obj$1[key] = obj[key], obj$1)) : acc;
+          return keys4.indexOf(key) === -1 && obj[key] !== void 0 ? Object.assign(acc, (obj$1 = {}, obj$1[key] = obj[key], obj$1)) : acc;
         };
       }
-      function omit(keys, obj) {
-        if (!isFoldable(keys)) {
+      function omit(keys4, obj) {
+        if (!isFoldable(keys4)) {
           throw new TypeError("omit: Foldable required for first argument");
         } else if (!isObject(obj)) {
           throw new TypeError("omit: Object required for second argument");
         }
-        return Object.keys(obj).reduce(omitKeys(keys, obj), {});
+        return Object.keys(obj).reduce(omitKeys(keys4, obj), {});
       }
       module.exports = curry(omit);
     }
@@ -6017,13 +6017,13 @@
           return key && obj[key] !== void 0 ? Object.assign(acc, (obj$1 = {}, obj$1[key] = obj[key], obj$1)) : acc;
         };
       }
-      function pick(keys, obj) {
-        if (!isFoldable(keys)) {
+      function pick(keys4, obj) {
+        if (!isFoldable(keys4)) {
           throw new TypeError("pick: Foldable required for first argument");
         } else if (!isObject(obj)) {
           throw new TypeError("pick: Object required for second argument");
         }
-        return keys.reduce(pickKeys(obj), {});
+        return keys4.reduce(pickKeys(obj), {});
       }
       module.exports = curry(pick);
     }
@@ -6045,7 +6045,7 @@
           return g.call(null, f.apply(null, args));
         };
       }
-      function pipe() {
+      function pipe2() {
         var fns = [], len = arguments.length;
         while (len--)
           fns[len] = arguments[len];
@@ -6056,12 +6056,12 @@
         if (!isFunction(head)) {
           throw new TypeError(err);
         }
-        var tail2 = fns.slice(1).concat(function(x) {
+        var tail3 = fns.slice(1).concat(function(x) {
           return x;
         });
-        return tail2.reduce(applyPipe, head);
+        return tail3.reduce(applyPipe, head);
       }
-      module.exports = pipe;
+      module.exports = pipe2;
     }
   });
 
@@ -6081,7 +6081,7 @@
         if (arguments.length === 1) {
           return head;
         }
-        var tail2 = fns.reduce(function(comp, fn) {
+        var tail3 = fns.reduce(function(comp, fn) {
           if (!isFunction(fn)) {
             throw new TypeError(err);
           }
@@ -6095,7 +6095,7 @@
           return x;
         });
         return function() {
-          return tail2(head.apply(null, arguments));
+          return tail3(head.apply(null, arguments));
         };
       }
       module.exports = pipeK;
@@ -6131,10 +6131,10 @@
         if (!isFunction(head)) {
           throw new TypeError(err);
         }
-        var tail2 = fns.slice(1).concat(function(x) {
+        var tail3 = fns.slice(1).concat(function(x) {
           return x;
         });
-        return tail2.reduce(applyPipe, head);
+        return tail3.reduce(applyPipe, head);
       }
       module.exports = pipeP;
     }
@@ -6202,8 +6202,8 @@
         return isObject(x) || isArray(x);
       };
       var pathErr = "setPath: Non-empty Array of non-empty Strings and/or Positive Integers required for first argument";
-      function setPath(path, val, obj) {
-        if (!isArray(path) || isEmpty(path)) {
+      function setPath(path3, val, obj) {
+        if (!isArray(path3) || isEmpty(path3)) {
           throw new TypeError(pathErr);
         }
         if (!isValid(obj)) {
@@ -6211,14 +6211,14 @@
             "setPath: Object or Array required for third argument"
           );
         }
-        var key = path[0];
+        var key = path3[0];
         var newVal = val;
         if (!(isString(key) && !isEmpty(key) || isInteger(key) && key >= 0)) {
           throw new TypeError(pathErr);
         }
-        if (path.length > 1) {
-          var next = !isValid(obj[key]) ? isInteger(path[1]) ? [] : {} : obj[key];
-          newVal = setPath(path.slice(1), val, next);
+        if (path3.length > 1) {
+          var next = !isValid(obj[key]) ? isInteger(path3[1]) ? [] : {} : obj[key];
+          newVal = setPath(path3.slice(1), val, next);
         }
         if (isObject(obj)) {
           if (isString(key)) {
@@ -6243,7 +6243,7 @@
   var require_tap = __commonJS({
     "node_modules/crocks/helpers/tap.js"(exports, module) {
       var curry = require_curry();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isFunction = require_isFunction();
       var constant = function(x) {
         return function() {
@@ -6256,7 +6256,7 @@
             "tap: Function required for first argument"
           );
         }
-        return compose(constant(x), fn)(x);
+        return compose2(constant(x), fn)(x);
       }
       module.exports = curry(tap);
     }
@@ -6297,18 +6297,18 @@
       var array = require_array();
       var object = require_object();
       var pathError = "unsetPath: Non-empty Array of non-empty Strings and/or Positive Integers required for first argument";
-      function unsetPath(path, obj) {
-        if (!isArray(path) || isEmpty(path)) {
+      function unsetPath(path3, obj) {
+        if (!isArray(path3) || isEmpty(path3)) {
           throw new TypeError(pathError);
         }
         if (!(isObject(obj) || isArray(obj))) {
           return obj;
         }
-        var key = path[0];
+        var key = path3[0];
         if (!(isString(key) && !isEmpty(key) || isInteger(key) && key >= 0)) {
           throw new TypeError(pathError);
         }
-        if (path.length === 1) {
+        if (path3.length === 1) {
           if (isArray(obj) && isInteger(key)) {
             return array.unset(key, obj);
           }
@@ -6322,9 +6322,9 @@
           return obj;
         }
         if (isArray(obj)) {
-          return array.set(key, unsetPath(path.slice(1), next), obj);
+          return array.set(key, unsetPath(path3.slice(1), next), obj);
         }
-        return object.set(key, unsetPath(path.slice(1), next), obj);
+        return object.set(key, unsetPath(path3.slice(1), next), obj);
       }
       module.exports = curry(unsetPath);
     }
@@ -6439,7 +6439,7 @@
           return !acc.found && predOrFunc(fn, cur) ? { found: true, value: cur } : acc;
         };
       };
-      function find(fn, foldable) {
+      function find3(fn, foldable) {
         if (!isFunction(fn) && !isSameType(Pred, fn)) {
           throw new TypeError("find: First argument must be a Pred or predicate");
         }
@@ -6449,7 +6449,7 @@
         var result = foldable.reduce(accumulator(fn), { found: false });
         return result.found ? Just(result.value) : Nothing();
       }
-      module.exports = curry(find);
+      module.exports = curry(find3);
     }
   });
 
@@ -6467,16 +6467,16 @@
       var isNil = require_isNil();
       var isString = require_isString();
       function fn(name) {
-        function getPath2(keys, target) {
-          if (!isArray(keys)) {
+        function getPath2(keys4, target) {
+          if (!isArray(keys4)) {
             throw new TypeError(name + ": Array of Non-empty Strings or Integers required for first argument");
           }
           if (isNil(target)) {
             return Nothing();
           }
           var value = target;
-          for (var i2 = 0; i2 < keys.length; i2++) {
-            var key = keys[i2];
+          for (var i2 = 0; i2 < keys4.length; i2++) {
+            var key = keys4[i2];
             if (!(isString(key) && !isEmpty(key) || isInteger(key))) {
               throw new TypeError(name + ": Array of Non-empty Strings or Integers required for first argument");
             }
@@ -6593,12 +6593,12 @@
   // node_modules/crocks/Maybe/safeLift.js
   var require_safeLift = __commonJS({
     "node_modules/crocks/Maybe/safeLift.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var curry = require_curry();
       var isPredOrFunc = require_isPredOrFunc();
       var isFunction = require_isFunction();
       var safe = require_safe();
-      var map = function(fn) {
+      var map3 = function(fn) {
         return function(m) {
           return m.map(fn);
         };
@@ -6609,7 +6609,7 @@
         } else if (!isFunction(fn)) {
           throw new TypeError("safeLift: Function required for second argument");
         }
-        return compose(map(fn), safe(pred));
+        return compose2(map3(fn), safe(pred));
       }
       module.exports = curry(safeLift);
     }
@@ -6668,9 +6668,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("All");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("All");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isFunction = require_isFunction();
       var isNil = require_isNil();
@@ -6688,8 +6688,8 @@
           return !!x;
         };
         var empty2 = _empty;
-        var equals = function(m) {
-          return isSameType(All, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(All, m) && _equals2(x, m.valueOf());
         };
         var inspect = function() {
           return "All" + _inspect(valueOf());
@@ -6705,17 +6705,17 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2
-        }, obj["@@type"] = _type, obj.concat = concat("concat"), obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj.constructor = All, obj;
+        }, obj["@@type"] = _type, obj.concat = concat("concat"), obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj.constructor = All, obj;
       }
       All["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       All.empty = _empty;
-      All.type = type;
+      All.type = type3;
       All[fl.empty] = _empty;
       All["@@type"] = _type;
       module.exports = All;
@@ -6728,9 +6728,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Any");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Any");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isFunction = require_isFunction();
       var isNil = require_isNil();
@@ -6751,8 +6751,8 @@
         var inspect = function() {
           return "Any" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Any, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Any, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -6765,17 +6765,17 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2
-        }, obj["@@type"] = _type, obj.concat = concat("concat"), obj[fl.equals] = equals, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj.constructor = Any, obj;
+        }, obj["@@type"] = _type, obj.concat = concat("concat"), obj[fl.equals] = equals3, obj[fl.concat] = concat(fl.concat), obj[fl.empty] = empty2, obj.constructor = Any, obj;
       }
       Any["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Any.empty = _empty;
-      Any.type = type;
+      Any.type = type3;
       Any[fl.empty] = _empty;
       Any["@@type"] = _type;
       module.exports = Any;
@@ -6789,9 +6789,9 @@
       var _implements = require_implements();
       var _inspect = require_inspect();
       var _object = require_object();
-      var _equals = require_equals();
-      var type = require_types().type("Assign");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Assign");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isNil = require_isNil();
       var isObject = require_isObject();
@@ -6812,8 +6812,8 @@
         var inspect = function() {
           return "Assign" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Assign, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Assign, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -6826,18 +6826,18 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Assign, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Assign, obj;
       }
       Assign["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Assign.empty = _empty;
-      Assign.type = type;
+      Assign.type = type3;
       Assign[fl.empty] = _empty;
       Assign["@@type"] = _type;
       module.exports = Assign;
@@ -6850,10 +6850,10 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var type = require_types().type("Endo");
-      var _type = require_types().typeFn(type(), VERSION);
+      var type3 = require_types().type("Endo");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
-      var compose = require_compose();
+      var compose2 = require_compose();
       var isFunction = require_isFunction();
       var isSameType = require_isSameType();
       var _empty = function() {
@@ -6878,14 +6878,14 @@
             if (!isSameType(Endo, m)) {
               throw new TypeError("Endo." + method + ": Endo required");
             }
-            return Endo(compose(m.valueOf(), valueOf()));
+            return Endo(compose2(m.valueOf(), valueOf()));
           };
         }
         return obj = {
           inspect,
           toString: inspect,
           valueOf,
-          type,
+          type: type3,
           empty: empty2,
           runWith,
           concat: concat("concat")
@@ -6895,7 +6895,7 @@
         ["concat", "empty"]
       );
       Endo.empty = _empty;
-      Endo.type = type;
+      Endo.type = type3;
       Endo[fl.empty] = _empty;
       Endo["@@type"] = _type;
       module.exports = Endo;
@@ -6908,9 +6908,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("First");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("First");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isSameType = require_isSameType();
       var Maybe = require_Maybe();
@@ -6929,8 +6929,8 @@
         var inspect = function() {
           return "First(" + _inspect(maybe) + " )";
         };
-        var equals = function(m) {
-          return isSameType(First, m) && _equals(maybe, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(First, m) && _equals2(maybe, m.valueOf());
         };
         var valueOf = function() {
           return maybe;
@@ -6954,19 +6954,19 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           empty: empty2,
           option,
-          type,
+          type: type3,
           valueOf,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = _empty, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = First, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = _empty, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = First, obj;
       }
       First["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       First.empty = _empty;
-      First.type = type;
+      First.type = type3;
       First[fl.empty] = _empty;
       First["@@type"] = _type;
       module.exports = First;
@@ -6979,9 +6979,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Last");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Last");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isSameType = require_isSameType();
       var Maybe = require_Maybe();
@@ -7003,8 +7003,8 @@
         var inspect = function() {
           return "Last(" + _inspect(maybe) + " )";
         };
-        var equals = function(m) {
-          return isSameType(Last, m) && _equals(maybe, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Last, m) && _equals2(maybe, m.valueOf());
         };
         var option = maybe.option;
         function concat(method) {
@@ -7034,19 +7034,19 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           empty: empty2,
           option,
-          type,
+          type: type3,
           valueOf,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Last, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Last, obj;
       }
       Last["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Last.empty = _empty;
-      Last.type = type;
+      Last.type = type3;
       Last[fl.empty] = _empty;
       Last["@@type"] = _type;
       module.exports = Last;
@@ -7059,9 +7059,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Max");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Max");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isNil = require_isNil();
       var isNumber = require_isNumber();
@@ -7082,8 +7082,8 @@
         var inspect = function() {
           return "Max" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Max, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Max, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -7096,18 +7096,18 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Max, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Max, obj;
       }
       Max["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Max.empty = _empty;
-      Max.type = type;
+      Max.type = type3;
       Max[fl.empty] = _empty;
       Max["@@type"] = _type;
       module.exports = Max;
@@ -7120,9 +7120,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Min");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Min");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isNil = require_isNil();
       var isNumber = require_isNumber();
@@ -7143,8 +7143,8 @@
         var inspect = function() {
           return "Min" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Min, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Min, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -7157,18 +7157,18 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Min, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Min, obj;
       }
       Min["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Min.empty = _empty;
-      Min.type = type;
+      Min.type = type3;
       Min[fl.empty] = _empty;
       Min["@@type"] = _type;
       module.exports = Min;
@@ -7181,9 +7181,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Prod");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Prod");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isNil = require_isNil();
       var isNumber = require_isNumber();
@@ -7204,8 +7204,8 @@
         var inspect = function() {
           return "Prod" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Prod, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Prod, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -7218,18 +7218,18 @@
         return obj = {
           inspect,
           toString: inspect,
-          equals,
+          equals: equals3,
           valueOf,
-          type,
+          type: type3,
           empty: empty2,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Prod, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Prod, obj;
       }
       Prod["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Prod.empty = _empty;
-      Prod.type = type;
+      Prod.type = type3;
       Prod[fl.empty] = _empty;
       Prod["@@type"] = _type;
       module.exports = Prod;
@@ -7242,9 +7242,9 @@
       var VERSION = 2;
       var _implements = require_implements();
       var _inspect = require_inspect();
-      var _equals = require_equals();
-      var type = require_types().type("Sum");
-      var _type = require_types().typeFn(type(), VERSION);
+      var _equals2 = require_equals();
+      var type3 = require_types().type("Sum");
+      var _type = require_types().typeFn(type3(), VERSION);
       var fl = require_flNames();
       var isNil = require_isNil();
       var isNumber = require_isNumber();
@@ -7265,8 +7265,8 @@
         var inspect = function() {
           return "Sum" + _inspect(valueOf());
         };
-        var equals = function(m) {
-          return isSameType(Sum, m) && _equals(x, m.valueOf());
+        var equals3 = function(m) {
+          return isSameType(Sum, m) && _equals2(x, m.valueOf());
         };
         function concat(method) {
           return function(m) {
@@ -7280,17 +7280,17 @@
           inspect,
           toString: inspect,
           valueOf,
-          equals,
-          type,
+          equals: equals3,
+          type: type3,
           empty: empty2,
           concat: concat("concat")
-        }, obj[fl.equals] = equals, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Sum, obj;
+        }, obj[fl.equals] = equals3, obj[fl.empty] = empty2, obj[fl.concat] = concat(fl.concat), obj["@@type"] = _type, obj.constructor = Sum, obj;
       }
       Sum["@@implements"] = _implements(
         ["equals", "concat", "empty"]
       );
       Sum.empty = _empty;
-      Sum.type = type;
+      Sum.type = type3;
       Sum[fl.empty] = _empty;
       Sum["@@type"] = _type;
       module.exports = Sum;
@@ -7507,7 +7507,7 @@
   // node_modules/crocks/pointfree/contramap.js
   var require_contramap = __commonJS({
     "node_modules/crocks/pointfree/contramap.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var curry = require_curry();
       var isFunction = require_isFunction();
       var isContravariant = require_isContravariant();
@@ -7519,7 +7519,7 @@
           );
         }
         if (isFunction(m)) {
-          return compose(m, fn);
+          return compose2(m, fn);
         }
         if (isContravariant(m)) {
           return (m[fl.contramap] || m.contramap).call(m, fn);
@@ -7585,12 +7585,12 @@
   // node_modules/crocks/pointfree/equals.js
   var require_equals2 = __commonJS({
     "node_modules/crocks/pointfree/equals.js"(exports, module) {
-      var _equals = require_equals();
+      var _equals2 = require_equals();
       var curry = require_curry();
-      function equals(x, y) {
-        return _equals(x, y);
+      function equals3(x, y) {
+        return _equals2(x, y);
       }
-      module.exports = curry(equals);
+      module.exports = curry(equals3);
     }
   });
 
@@ -7623,7 +7623,7 @@
       var isObject = require_isObject();
       var object = require_object();
       var predOrFunc = require_predOrFunc();
-      function filter2(pred, m) {
+      function filter3(pred, m) {
         if (!isPredOrFunc(pred)) {
           throw new TypeError("filter: Pred or predicate function required for first argument");
         }
@@ -7638,7 +7638,7 @@
         }
         throw new TypeError("filter: Filterable or Object required for second argument");
       }
-      module.exports = curry(filter2);
+      module.exports = curry(filter3);
     }
   });
 
@@ -7825,7 +7825,7 @@
   // node_modules/crocks/pointfree/map.js
   var require_map = __commonJS({
     "node_modules/crocks/pointfree/map.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var curry = require_curry();
       var isArray = require_isArray();
       var isObject = require_isObject();
@@ -7834,12 +7834,12 @@
       var array = require_array();
       var object = require_object();
       var fl = require_flNames();
-      function map(fn, m) {
+      function map3(fn, m) {
         if (!isFunction(fn)) {
           throw new TypeError("map: Function required for first argument");
         }
         if (isFunction(m)) {
-          return compose(fn, m);
+          return compose2(fn, m);
         }
         if (isArray(m)) {
           return array.map(fn, m);
@@ -7852,7 +7852,7 @@
         }
         throw new TypeError("map: Object, Function or Functor of the same type required for second argument");
       }
-      module.exports = curry(map);
+      module.exports = curry(map3);
     }
   });
 
@@ -7892,7 +7892,7 @@
   // node_modules/crocks/pointfree/promap.js
   var require_promap = __commonJS({
     "node_modules/crocks/pointfree/promap.js"(exports, module) {
-      var compose = require_compose();
+      var compose2 = require_compose();
       var curry = require_curry();
       var fl = require_flNames();
       var isFunction = require_isFunction();
@@ -7904,7 +7904,7 @@
           );
         }
         if (isFunction(m)) {
-          return compose(compose(r2, m), l);
+          return compose2(compose2(r2, m), l);
         }
         if (isProfunctor(m)) {
           return (m[fl.promap] || m.promap).call(m, l, r2);
@@ -7924,7 +7924,7 @@
       var isFoldable = require_isFoldable();
       var isFunction = require_isFunction();
       var fl = require_flNames();
-      function reduce(fn, init2, m) {
+      function reduce2(fn, init2, m) {
         if (!isFunction(fn)) {
           throw new TypeError(
             "reduce: Function required for first argument"
@@ -7937,7 +7937,7 @@
         }
         return (m[fl.reduce] || m.reduce).call(m, fn, init2);
       }
-      module.exports = curry(reduce);
+      module.exports = curry(reduce2);
     }
   });
 
@@ -8001,13 +8001,13 @@
   var require_run = __commonJS({
     "node_modules/crocks/pointfree/run.js"(exports, module) {
       var isFunction = require_isFunction();
-      function run2(m) {
+      function run3(m) {
         if (!(m && isFunction(m.run))) {
           throw new TypeError("run: IO required");
         }
         return m.run();
       }
-      module.exports = run2;
+      module.exports = run3;
     }
   });
 
@@ -8109,7 +8109,7 @@
       var ref = require_Maybe();
       var Nothing = ref.Nothing;
       var Just = ref.Just;
-      function tail2(m) {
+      function tail3(m) {
         if (!isNil(m)) {
           if (isFunction(m.tail)) {
             return m.tail();
@@ -8120,7 +8120,7 @@
         }
         throw new TypeError("tail: Array, String or List required");
       }
-      module.exports = tail2;
+      module.exports = tail3;
     }
   });
 
@@ -9614,6 +9614,9 @@
   function text(data) {
     return document.createTextNode(data);
   }
+  function space() {
+    return text(" ");
+  }
   function empty() {
     return text("");
   }
@@ -9738,7 +9741,7 @@
   }
   function handle_promise(promise, info) {
     const token = info.token = {};
-    function update2(type, index, key, value) {
+    function update2(type3, index, key, value) {
       if (info.token !== token)
         return;
       info.resolved = value;
@@ -9747,7 +9750,7 @@
         child_ctx = child_ctx.slice();
         child_ctx[key] = value;
       }
-      const block = type && (info.current = type)(child_ctx);
+      const block = type3 && (info.current = type3)(child_ctx);
       let needs_flush = false;
       if (info.block) {
         if (info.blocks) {
@@ -9926,11 +9929,11 @@
         destroy_component(this, 1);
         this.$destroy = noop;
       }
-      $on(type, callback) {
+      $on(type3, callback) {
         if (!is_function(callback)) {
           return noop;
         }
-        const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
+        const callbacks = this.$$.callbacks[type3] || (this.$$.callbacks[type3] = []);
         callbacks.push(callback);
         return () => {
           const index = callbacks.indexOf(callback);
@@ -9952,11 +9955,11 @@
       destroy_component(this, 1);
       this.$destroy = noop;
     }
-    $on(type, callback) {
+    $on(type3, callback) {
       if (!is_function(callback)) {
         return noop;
       }
-      const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
+      const callbacks = this.$$.callbacks[type3] || (this.$$.callbacks[type3] = []);
       callbacks.push(callback);
       return () => {
         const index = callbacks.indexOf(callback);
@@ -10003,9 +10006,9 @@
     }
     return value;
   };
-  var ensureMaxSize = (map, max) => {
-    if (map.size > max) {
-      map.delete(map.keys().next().value);
+  var ensureMaxSize = (map3, max) => {
+    if (map3.size > max) {
+      map3.delete(map3.keys().next().value);
     }
   };
   var isCSSProperty = (key, value) => !includes("@:&", key[0]) && (includes("rg", (typeof value)[5]) || Array.isArray(value));
@@ -11892,13 +11895,13 @@
     function update2(fn) {
       set(fn(value));
     }
-    function subscribe2(run2, invalidate = noop) {
-      const subscriber = [run2, invalidate];
+    function subscribe2(run3, invalidate = noop) {
+      const subscriber = [run3, invalidate];
       subscribers.add(subscriber);
       if (subscribers.size === 1) {
         stop = start(set) || noop;
       }
-      run2(value);
+      run3(value);
       return () => {
         subscribers.delete(subscriber);
         if (subscribers.size === 0) {
@@ -11920,12 +11923,868 @@
     body: JSON.stringify(q)
   }).then((res) => res.json()).then(({ result }) => result);
 
+  // node_modules/ramda/es/internal/_isPlaceholder.js
+  function _isPlaceholder(a2) {
+    return a2 != null && typeof a2 === "object" && a2["@@functional/placeholder"] === true;
+  }
+
+  // node_modules/ramda/es/internal/_curry1.js
+  function _curry1(fn) {
+    return function f1(a2) {
+      if (arguments.length === 0 || _isPlaceholder(a2)) {
+        return f1;
+      } else {
+        return fn.apply(this, arguments);
+      }
+    };
+  }
+
+  // node_modules/ramda/es/internal/_curry2.js
+  function _curry2(fn) {
+    return function f2(a2, b) {
+      switch (arguments.length) {
+        case 0:
+          return f2;
+        case 1:
+          return _isPlaceholder(a2) ? f2 : _curry1(function(_b) {
+            return fn(a2, _b);
+          });
+        default:
+          return _isPlaceholder(a2) && _isPlaceholder(b) ? f2 : _isPlaceholder(a2) ? _curry1(function(_a) {
+            return fn(_a, b);
+          }) : _isPlaceholder(b) ? _curry1(function(_b) {
+            return fn(a2, _b);
+          }) : fn(a2, b);
+      }
+    };
+  }
+
+  // node_modules/ramda/es/internal/_arity.js
+  function _arity(n, fn) {
+    switch (n) {
+      case 0:
+        return function() {
+          return fn.apply(this, arguments);
+        };
+      case 1:
+        return function(a0) {
+          return fn.apply(this, arguments);
+        };
+      case 2:
+        return function(a0, a1) {
+          return fn.apply(this, arguments);
+        };
+      case 3:
+        return function(a0, a1, a2) {
+          return fn.apply(this, arguments);
+        };
+      case 4:
+        return function(a0, a1, a2, a3) {
+          return fn.apply(this, arguments);
+        };
+      case 5:
+        return function(a0, a1, a2, a3, a4) {
+          return fn.apply(this, arguments);
+        };
+      case 6:
+        return function(a0, a1, a2, a3, a4, a5) {
+          return fn.apply(this, arguments);
+        };
+      case 7:
+        return function(a0, a1, a2, a3, a4, a5, a6) {
+          return fn.apply(this, arguments);
+        };
+      case 8:
+        return function(a0, a1, a2, a3, a4, a5, a6, a7) {
+          return fn.apply(this, arguments);
+        };
+      case 9:
+        return function(a0, a1, a2, a3, a4, a5, a6, a7, a8) {
+          return fn.apply(this, arguments);
+        };
+      case 10:
+        return function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
+          return fn.apply(this, arguments);
+        };
+      default:
+        throw new Error("First argument to _arity must be a non-negative integer no greater than ten");
+    }
+  }
+
+  // node_modules/ramda/es/internal/_curryN.js
+  function _curryN(length, received, fn) {
+    return function() {
+      var combined = [];
+      var argsIdx = 0;
+      var left = length;
+      var combinedIdx = 0;
+      while (combinedIdx < received.length || argsIdx < arguments.length) {
+        var result;
+        if (combinedIdx < received.length && (!_isPlaceholder(received[combinedIdx]) || argsIdx >= arguments.length)) {
+          result = received[combinedIdx];
+        } else {
+          result = arguments[argsIdx];
+          argsIdx += 1;
+        }
+        combined[combinedIdx] = result;
+        if (!_isPlaceholder(result)) {
+          left -= 1;
+        }
+        combinedIdx += 1;
+      }
+      return left <= 0 ? fn.apply(this, combined) : _arity(left, _curryN(length, combined, fn));
+    };
+  }
+
+  // node_modules/ramda/es/curryN.js
+  var curryN = /* @__PURE__ */ _curry2(function curryN2(length, fn) {
+    if (length === 1) {
+      return _curry1(fn);
+    }
+    return _arity(length, _curryN(length, [], fn));
+  });
+  var curryN_default = curryN;
+
+  // node_modules/ramda/es/internal/_curry3.js
+  function _curry3(fn) {
+    return function f3(a2, b, c) {
+      switch (arguments.length) {
+        case 0:
+          return f3;
+        case 1:
+          return _isPlaceholder(a2) ? f3 : _curry2(function(_b, _c) {
+            return fn(a2, _b, _c);
+          });
+        case 2:
+          return _isPlaceholder(a2) && _isPlaceholder(b) ? f3 : _isPlaceholder(a2) ? _curry2(function(_a, _c) {
+            return fn(_a, b, _c);
+          }) : _isPlaceholder(b) ? _curry2(function(_b, _c) {
+            return fn(a2, _b, _c);
+          }) : _curry1(function(_c) {
+            return fn(a2, b, _c);
+          });
+        default:
+          return _isPlaceholder(a2) && _isPlaceholder(b) && _isPlaceholder(c) ? f3 : _isPlaceholder(a2) && _isPlaceholder(b) ? _curry2(function(_a, _b) {
+            return fn(_a, _b, c);
+          }) : _isPlaceholder(a2) && _isPlaceholder(c) ? _curry2(function(_a, _c) {
+            return fn(_a, b, _c);
+          }) : _isPlaceholder(b) && _isPlaceholder(c) ? _curry2(function(_b, _c) {
+            return fn(a2, _b, _c);
+          }) : _isPlaceholder(a2) ? _curry1(function(_a) {
+            return fn(_a, b, c);
+          }) : _isPlaceholder(b) ? _curry1(function(_b) {
+            return fn(a2, _b, c);
+          }) : _isPlaceholder(c) ? _curry1(function(_c) {
+            return fn(a2, b, _c);
+          }) : fn(a2, b, c);
+      }
+    };
+  }
+
+  // node_modules/ramda/es/internal/_isArray.js
+  var isArray_default = Array.isArray || function _isArray(val) {
+    return val != null && val.length >= 0 && Object.prototype.toString.call(val) === "[object Array]";
+  };
+
+  // node_modules/ramda/es/internal/_isTransformer.js
+  function _isTransformer(obj) {
+    return obj != null && typeof obj["@@transducer/step"] === "function";
+  }
+
+  // node_modules/ramda/es/internal/_dispatchable.js
+  function _dispatchable(methodNames, transducerCreator, fn) {
+    return function() {
+      if (arguments.length === 0) {
+        return fn();
+      }
+      var obj = arguments[arguments.length - 1];
+      if (!isArray_default(obj)) {
+        var idx = 0;
+        while (idx < methodNames.length) {
+          if (typeof obj[methodNames[idx]] === "function") {
+            return obj[methodNames[idx]].apply(obj, Array.prototype.slice.call(arguments, 0, -1));
+          }
+          idx += 1;
+        }
+        if (_isTransformer(obj)) {
+          var transducer = transducerCreator.apply(null, Array.prototype.slice.call(arguments, 0, -1));
+          return transducer(obj);
+        }
+      }
+      return fn.apply(this, arguments);
+    };
+  }
+
+  // node_modules/ramda/es/internal/_reduced.js
+  function _reduced(x) {
+    return x && x["@@transducer/reduced"] ? x : {
+      "@@transducer/value": x,
+      "@@transducer/reduced": true
+    };
+  }
+
+  // node_modules/ramda/es/internal/_xfBase.js
+  var xfBase_default = {
+    init: function() {
+      return this.xf["@@transducer/init"]();
+    },
+    result: function(result) {
+      return this.xf["@@transducer/result"](result);
+    }
+  };
+
+  // node_modules/ramda/es/internal/_map.js
+  function _map(fn, functor) {
+    var idx = 0;
+    var len = functor.length;
+    var result = Array(len);
+    while (idx < len) {
+      result[idx] = fn(functor[idx]);
+      idx += 1;
+    }
+    return result;
+  }
+
+  // node_modules/ramda/es/internal/_isString.js
+  function _isString(x) {
+    return Object.prototype.toString.call(x) === "[object String]";
+  }
+
+  // node_modules/ramda/es/internal/_isArrayLike.js
+  var _isArrayLike = /* @__PURE__ */ _curry1(function isArrayLike(x) {
+    if (isArray_default(x)) {
+      return true;
+    }
+    if (!x) {
+      return false;
+    }
+    if (typeof x !== "object") {
+      return false;
+    }
+    if (_isString(x)) {
+      return false;
+    }
+    if (x.length === 0) {
+      return true;
+    }
+    if (x.length > 0) {
+      return x.hasOwnProperty(0) && x.hasOwnProperty(x.length - 1);
+    }
+    return false;
+  });
+  var isArrayLike_default = _isArrayLike;
+
+  // node_modules/ramda/es/internal/_xwrap.js
+  var XWrap = /* @__PURE__ */ function() {
+    function XWrap2(fn) {
+      this.f = fn;
+    }
+    XWrap2.prototype["@@transducer/init"] = function() {
+      throw new Error("init not implemented on XWrap");
+    };
+    XWrap2.prototype["@@transducer/result"] = function(acc) {
+      return acc;
+    };
+    XWrap2.prototype["@@transducer/step"] = function(acc, x) {
+      return this.f(acc, x);
+    };
+    return XWrap2;
+  }();
+  function _xwrap(fn) {
+    return new XWrap(fn);
+  }
+
+  // node_modules/ramda/es/bind.js
+  var bind = /* @__PURE__ */ _curry2(function bind2(fn, thisObj) {
+    return _arity(fn.length, function() {
+      return fn.apply(thisObj, arguments);
+    });
+  });
+  var bind_default = bind;
+
+  // node_modules/ramda/es/internal/_reduce.js
+  function _arrayReduce(xf, acc, list) {
+    var idx = 0;
+    var len = list.length;
+    while (idx < len) {
+      acc = xf["@@transducer/step"](acc, list[idx]);
+      if (acc && acc["@@transducer/reduced"]) {
+        acc = acc["@@transducer/value"];
+        break;
+      }
+      idx += 1;
+    }
+    return xf["@@transducer/result"](acc);
+  }
+  function _iterableReduce(xf, acc, iter) {
+    var step = iter.next();
+    while (!step.done) {
+      acc = xf["@@transducer/step"](acc, step.value);
+      if (acc && acc["@@transducer/reduced"]) {
+        acc = acc["@@transducer/value"];
+        break;
+      }
+      step = iter.next();
+    }
+    return xf["@@transducer/result"](acc);
+  }
+  function _methodReduce(xf, acc, obj, methodName) {
+    return xf["@@transducer/result"](obj[methodName](bind_default(xf["@@transducer/step"], xf), acc));
+  }
+  var symIterator = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
+  function _reduce(fn, acc, list) {
+    if (typeof fn === "function") {
+      fn = _xwrap(fn);
+    }
+    if (isArrayLike_default(list)) {
+      return _arrayReduce(fn, acc, list);
+    }
+    if (typeof list["fantasy-land/reduce"] === "function") {
+      return _methodReduce(fn, acc, list, "fantasy-land/reduce");
+    }
+    if (list[symIterator] != null) {
+      return _iterableReduce(fn, acc, list[symIterator]());
+    }
+    if (typeof list.next === "function") {
+      return _iterableReduce(fn, acc, list);
+    }
+    if (typeof list.reduce === "function") {
+      return _methodReduce(fn, acc, list, "reduce");
+    }
+    throw new TypeError("reduce: list must be array or iterable");
+  }
+
+  // node_modules/ramda/es/internal/_xmap.js
+  var XMap = /* @__PURE__ */ function() {
+    function XMap2(f, xf) {
+      this.xf = xf;
+      this.f = f;
+    }
+    XMap2.prototype["@@transducer/init"] = xfBase_default.init;
+    XMap2.prototype["@@transducer/result"] = xfBase_default.result;
+    XMap2.prototype["@@transducer/step"] = function(result, input) {
+      return this.xf["@@transducer/step"](result, this.f(input));
+    };
+    return XMap2;
+  }();
+  var _xmap = /* @__PURE__ */ _curry2(function _xmap2(f, xf) {
+    return new XMap(f, xf);
+  });
+  var xmap_default = _xmap;
+
+  // node_modules/ramda/es/internal/_has.js
+  function _has(prop3, obj) {
+    return Object.prototype.hasOwnProperty.call(obj, prop3);
+  }
+
+  // node_modules/ramda/es/internal/_isArguments.js
+  var toString = Object.prototype.toString;
+  var _isArguments = /* @__PURE__ */ function() {
+    return toString.call(arguments) === "[object Arguments]" ? function _isArguments2(x) {
+      return toString.call(x) === "[object Arguments]";
+    } : function _isArguments2(x) {
+      return _has("callee", x);
+    };
+  }();
+  var isArguments_default = _isArguments;
+
+  // node_modules/ramda/es/keys.js
+  var hasEnumBug = !/* @__PURE__ */ {
+    toString: null
+  }.propertyIsEnumerable("toString");
+  var nonEnumerableProps = ["constructor", "valueOf", "isPrototypeOf", "toString", "propertyIsEnumerable", "hasOwnProperty", "toLocaleString"];
+  var hasArgsEnumBug = /* @__PURE__ */ function() {
+    "use strict";
+    return arguments.propertyIsEnumerable("length");
+  }();
+  var contains = function contains2(list, item) {
+    var idx = 0;
+    while (idx < list.length) {
+      if (list[idx] === item) {
+        return true;
+      }
+      idx += 1;
+    }
+    return false;
+  };
+  var keys = typeof Object.keys === "function" && !hasArgsEnumBug ? /* @__PURE__ */ _curry1(function keys2(obj) {
+    return Object(obj) !== obj ? [] : Object.keys(obj);
+  }) : /* @__PURE__ */ _curry1(function keys3(obj) {
+    if (Object(obj) !== obj) {
+      return [];
+    }
+    var prop3, nIdx;
+    var ks = [];
+    var checkArgsLength = hasArgsEnumBug && isArguments_default(obj);
+    for (prop3 in obj) {
+      if (_has(prop3, obj) && (!checkArgsLength || prop3 !== "length")) {
+        ks[ks.length] = prop3;
+      }
+    }
+    if (hasEnumBug) {
+      nIdx = nonEnumerableProps.length - 1;
+      while (nIdx >= 0) {
+        prop3 = nonEnumerableProps[nIdx];
+        if (_has(prop3, obj) && !contains(ks, prop3)) {
+          ks[ks.length] = prop3;
+        }
+        nIdx -= 1;
+      }
+    }
+    return ks;
+  });
+  var keys_default = keys;
+
+  // node_modules/ramda/es/map.js
+  var map = /* @__PURE__ */ _curry2(
+    /* @__PURE__ */ _dispatchable(["fantasy-land/map", "map"], xmap_default, function map2(fn, functor) {
+      switch (Object.prototype.toString.call(functor)) {
+        case "[object Function]":
+          return curryN_default(functor.length, function() {
+            return fn.call(this, functor.apply(this, arguments));
+          });
+        case "[object Object]":
+          return _reduce(function(acc, key) {
+            acc[key] = fn(functor[key]);
+            return acc;
+          }, {}, keys_default(functor));
+        default:
+          return _map(fn, functor);
+      }
+    })
+  );
+  var map_default = map;
+
+  // node_modules/ramda/es/internal/_isInteger.js
+  var isInteger_default = Number.isInteger || function _isInteger(n) {
+    return n << 0 === n;
+  };
+
+  // node_modules/ramda/es/nth.js
+  var nth = /* @__PURE__ */ _curry2(function nth2(offset, list) {
+    var idx = offset < 0 ? list.length + offset : offset;
+    return _isString(list) ? list.charAt(idx) : list[idx];
+  });
+  var nth_default = nth;
+
+  // node_modules/ramda/es/prop.js
+  var prop = /* @__PURE__ */ _curry2(function prop2(p, obj) {
+    if (obj == null) {
+      return;
+    }
+    return isInteger_default(p) ? nth_default(p, obj) : obj[p];
+  });
+  var prop_default = prop;
+
+  // node_modules/ramda/es/pluck.js
+  var pluck = /* @__PURE__ */ _curry2(function pluck2(p, list) {
+    return map_default(prop_default(p), list);
+  });
+  var pluck_default = pluck;
+
+  // node_modules/ramda/es/reduce.js
+  var reduce = /* @__PURE__ */ _curry3(_reduce);
+  var reduce_default = reduce;
+
+  // node_modules/ramda/es/type.js
+  var type = /* @__PURE__ */ _curry1(function type2(val) {
+    return val === null ? "Null" : val === void 0 ? "Undefined" : Object.prototype.toString.call(val).slice(8, -1);
+  });
+  var type_default = type;
+
+  // node_modules/ramda/es/internal/_pipe.js
+  function _pipe(f, g) {
+    return function() {
+      return g.call(this, f.apply(this, arguments));
+    };
+  }
+
+  // node_modules/ramda/es/internal/_checkForMethod.js
+  function _checkForMethod(methodname, fn) {
+    return function() {
+      var length = arguments.length;
+      if (length === 0) {
+        return fn();
+      }
+      var obj = arguments[length - 1];
+      return isArray_default(obj) || typeof obj[methodname] !== "function" ? fn.apply(this, arguments) : obj[methodname].apply(obj, Array.prototype.slice.call(arguments, 0, length - 1));
+    };
+  }
+
+  // node_modules/ramda/es/slice.js
+  var slice = /* @__PURE__ */ _curry3(
+    /* @__PURE__ */ _checkForMethod("slice", function slice2(fromIndex, toIndex, list) {
+      return Array.prototype.slice.call(list, fromIndex, toIndex);
+    })
+  );
+  var slice_default = slice;
+
+  // node_modules/ramda/es/tail.js
+  var tail2 = /* @__PURE__ */ _curry1(
+    /* @__PURE__ */ _checkForMethod(
+      "tail",
+      /* @__PURE__ */ slice_default(1, Infinity)
+    )
+  );
+  var tail_default = tail2;
+
+  // node_modules/ramda/es/pipe.js
+  function pipe() {
+    if (arguments.length === 0) {
+      throw new Error("pipe requires at least one argument");
+    }
+    return _arity(arguments[0].length, reduce_default(_pipe, arguments[0], tail_default(arguments)));
+  }
+
+  // node_modules/ramda/es/reverse.js
+  var reverse = /* @__PURE__ */ _curry1(function reverse2(list) {
+    return _isString(list) ? list.split("").reverse().join("") : Array.prototype.slice.call(list, 0).reverse();
+  });
+  var reverse_default = reverse;
+
+  // node_modules/ramda/es/compose.js
+  function compose() {
+    if (arguments.length === 0) {
+      throw new Error("compose requires at least one argument");
+    }
+    return pipe.apply(this, reverse_default(arguments));
+  }
+
+  // node_modules/ramda/es/internal/_arrayFromIterator.js
+  function _arrayFromIterator(iter) {
+    var list = [];
+    var next;
+    while (!(next = iter.next()).done) {
+      list.push(next.value);
+    }
+    return list;
+  }
+
+  // node_modules/ramda/es/internal/_includesWith.js
+  function _includesWith(pred, x, list) {
+    var idx = 0;
+    var len = list.length;
+    while (idx < len) {
+      if (pred(x, list[idx])) {
+        return true;
+      }
+      idx += 1;
+    }
+    return false;
+  }
+
+  // node_modules/ramda/es/internal/_functionName.js
+  function _functionName(f) {
+    var match = String(f).match(/^function (\w*)/);
+    return match == null ? "" : match[1];
+  }
+
+  // node_modules/ramda/es/internal/_objectIs.js
+  function _objectIs(a2, b) {
+    if (a2 === b) {
+      return a2 !== 0 || 1 / a2 === 1 / b;
+    } else {
+      return a2 !== a2 && b !== b;
+    }
+  }
+  var objectIs_default = typeof Object.is === "function" ? Object.is : _objectIs;
+
+  // node_modules/ramda/es/internal/_equals.js
+  function _uniqContentEquals(aIterator, bIterator, stackA, stackB) {
+    var a2 = _arrayFromIterator(aIterator);
+    var b = _arrayFromIterator(bIterator);
+    function eq(_a, _b) {
+      return _equals(_a, _b, stackA.slice(), stackB.slice());
+    }
+    return !_includesWith(function(b2, aItem) {
+      return !_includesWith(eq, aItem, b2);
+    }, b, a2);
+  }
+  function _equals(a2, b, stackA, stackB) {
+    if (objectIs_default(a2, b)) {
+      return true;
+    }
+    var typeA = type_default(a2);
+    if (typeA !== type_default(b)) {
+      return false;
+    }
+    if (typeof a2["fantasy-land/equals"] === "function" || typeof b["fantasy-land/equals"] === "function") {
+      return typeof a2["fantasy-land/equals"] === "function" && a2["fantasy-land/equals"](b) && typeof b["fantasy-land/equals"] === "function" && b["fantasy-land/equals"](a2);
+    }
+    if (typeof a2.equals === "function" || typeof b.equals === "function") {
+      return typeof a2.equals === "function" && a2.equals(b) && typeof b.equals === "function" && b.equals(a2);
+    }
+    switch (typeA) {
+      case "Arguments":
+      case "Array":
+      case "Object":
+        if (typeof a2.constructor === "function" && _functionName(a2.constructor) === "Promise") {
+          return a2 === b;
+        }
+        break;
+      case "Boolean":
+      case "Number":
+      case "String":
+        if (!(typeof a2 === typeof b && objectIs_default(a2.valueOf(), b.valueOf()))) {
+          return false;
+        }
+        break;
+      case "Date":
+        if (!objectIs_default(a2.valueOf(), b.valueOf())) {
+          return false;
+        }
+        break;
+      case "Error":
+        return a2.name === b.name && a2.message === b.message;
+      case "RegExp":
+        if (!(a2.source === b.source && a2.global === b.global && a2.ignoreCase === b.ignoreCase && a2.multiline === b.multiline && a2.sticky === b.sticky && a2.unicode === b.unicode)) {
+          return false;
+        }
+        break;
+    }
+    var idx = stackA.length - 1;
+    while (idx >= 0) {
+      if (stackA[idx] === a2) {
+        return stackB[idx] === b;
+      }
+      idx -= 1;
+    }
+    switch (typeA) {
+      case "Map":
+        if (a2.size !== b.size) {
+          return false;
+        }
+        return _uniqContentEquals(a2.entries(), b.entries(), stackA.concat([a2]), stackB.concat([b]));
+      case "Set":
+        if (a2.size !== b.size) {
+          return false;
+        }
+        return _uniqContentEquals(a2.values(), b.values(), stackA.concat([a2]), stackB.concat([b]));
+      case "Arguments":
+      case "Array":
+      case "Object":
+      case "Boolean":
+      case "Number":
+      case "String":
+      case "Date":
+      case "Error":
+      case "RegExp":
+      case "Int8Array":
+      case "Uint8Array":
+      case "Uint8ClampedArray":
+      case "Int16Array":
+      case "Uint16Array":
+      case "Int32Array":
+      case "Uint32Array":
+      case "Float32Array":
+      case "Float64Array":
+      case "ArrayBuffer":
+        break;
+      default:
+        return false;
+    }
+    var keysA = keys_default(a2);
+    if (keysA.length !== keys_default(b).length) {
+      return false;
+    }
+    var extendedStackA = stackA.concat([a2]);
+    var extendedStackB = stackB.concat([b]);
+    idx = keysA.length - 1;
+    while (idx >= 0) {
+      var key = keysA[idx];
+      if (!(_has(key, b) && _equals(b[key], a2[key], extendedStackA, extendedStackB))) {
+        return false;
+      }
+      idx -= 1;
+    }
+    return true;
+  }
+
+  // node_modules/ramda/es/equals.js
+  var equals = /* @__PURE__ */ _curry2(function equals2(a2, b) {
+    return _equals(a2, b, [], []);
+  });
+  var equals_default = equals;
+
+  // node_modules/ramda/es/internal/_toISOString.js
+  var pad = function pad2(n) {
+    return (n < 10 ? "0" : "") + n;
+  };
+  var _toISOString = typeof Date.prototype.toISOString === "function" ? function _toISOString2(d) {
+    return d.toISOString();
+  } : function _toISOString3(d) {
+    return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate()) + "T" + pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds()) + "." + (d.getUTCMilliseconds() / 1e3).toFixed(3).slice(2, 5) + "Z";
+  };
+
+  // node_modules/ramda/es/internal/_filter.js
+  function _filter(fn, list) {
+    var idx = 0;
+    var len = list.length;
+    var result = [];
+    while (idx < len) {
+      if (fn(list[idx])) {
+        result[result.length] = list[idx];
+      }
+      idx += 1;
+    }
+    return result;
+  }
+
+  // node_modules/ramda/es/internal/_isObject.js
+  function _isObject(x) {
+    return Object.prototype.toString.call(x) === "[object Object]";
+  }
+
+  // node_modules/ramda/es/internal/_xfilter.js
+  var XFilter = /* @__PURE__ */ function() {
+    function XFilter2(f, xf) {
+      this.xf = xf;
+      this.f = f;
+    }
+    XFilter2.prototype["@@transducer/init"] = xfBase_default.init;
+    XFilter2.prototype["@@transducer/result"] = xfBase_default.result;
+    XFilter2.prototype["@@transducer/step"] = function(result, input) {
+      return this.f(input) ? this.xf["@@transducer/step"](result, input) : result;
+    };
+    return XFilter2;
+  }();
+  var _xfilter = /* @__PURE__ */ _curry2(function _xfilter2(f, xf) {
+    return new XFilter(f, xf);
+  });
+  var xfilter_default = _xfilter;
+
+  // node_modules/ramda/es/filter.js
+  var filter2 = /* @__PURE__ */ _curry2(
+    /* @__PURE__ */ _dispatchable(["fantasy-land/filter", "filter"], xfilter_default, function(pred, filterable) {
+      return _isObject(filterable) ? _reduce(function(acc, key) {
+        if (pred(filterable[key])) {
+          acc[key] = filterable[key];
+        }
+        return acc;
+      }, {}, keys_default(filterable)) : _filter(pred, filterable);
+    })
+  );
+  var filter_default = filter2;
+
+  // node_modules/ramda/es/defaultTo.js
+  var defaultTo = /* @__PURE__ */ _curry2(function defaultTo2(d, v) {
+    return v == null || v !== v ? d : v;
+  });
+  var defaultTo_default = defaultTo;
+
+  // node_modules/ramda/es/internal/_xfind.js
+  var XFind = /* @__PURE__ */ function() {
+    function XFind2(f, xf) {
+      this.xf = xf;
+      this.f = f;
+      this.found = false;
+    }
+    XFind2.prototype["@@transducer/init"] = xfBase_default.init;
+    XFind2.prototype["@@transducer/result"] = function(result) {
+      if (!this.found) {
+        result = this.xf["@@transducer/step"](result, void 0);
+      }
+      return this.xf["@@transducer/result"](result);
+    };
+    XFind2.prototype["@@transducer/step"] = function(result, input) {
+      if (this.f(input)) {
+        this.found = true;
+        result = _reduced(this.xf["@@transducer/step"](result, input));
+      }
+      return result;
+    };
+    return XFind2;
+  }();
+  var _xfind = /* @__PURE__ */ _curry2(function _xfind2(f, xf) {
+    return new XFind(f, xf);
+  });
+  var xfind_default = _xfind;
+
+  // node_modules/ramda/es/find.js
+  var find = /* @__PURE__ */ _curry2(
+    /* @__PURE__ */ _dispatchable(["find"], xfind_default, function find2(fn, list) {
+      var idx = 0;
+      var len = list.length;
+      while (idx < len) {
+        if (fn(list[idx])) {
+          return list[idx];
+        }
+        idx += 1;
+      }
+    })
+  );
+  var find_default = find;
+
+  // node_modules/ramda/es/paths.js
+  var paths = /* @__PURE__ */ _curry2(function paths2(pathsArray, obj) {
+    return pathsArray.map(function(paths3) {
+      var val = obj;
+      var idx = 0;
+      var p;
+      while (idx < paths3.length) {
+        if (val == null) {
+          return;
+        }
+        p = paths3[idx];
+        val = isInteger_default(p) ? nth_default(p, val) : val[p];
+        idx += 1;
+      }
+      return val;
+    });
+  });
+  var paths_default = paths;
+
+  // node_modules/ramda/es/path.js
+  var path = /* @__PURE__ */ _curry2(function path2(pathAr, obj) {
+    return paths_default([pathAr], obj)[0];
+  });
+  var path_default = path;
+
+  // node_modules/ramda/es/propEq.js
+  var propEq = /* @__PURE__ */ _curry3(function propEq2(name, val, obj) {
+    return equals_default(val, prop_default(name, obj));
+  });
+  var propEq_default = propEq;
+
+  // node_modules/ramda/es/propOr.js
+  var propOr = /* @__PURE__ */ _curry3(function propOr2(val, p, obj) {
+    return defaultTo_default(val, prop_default(p, obj));
+  });
+  var propOr_default = propOr;
+
+  // node_modules/ramda/es/trim.js
+  var hasProtoTrim = typeof String.prototype.trim === "function";
+
+  // src/services/arweave.js
+  var URL = "https://arweave.net";
+  var run2 = ({ query: query2, variables }) => fetch(`${URL}/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query: query2, variables })
+  }).then((res) => res.ok ? res.json() : Promise.reject(res));
+  var gql = async (q) => {
+    let hasNextPage = true;
+    let edges2 = [];
+    let cursor = "";
+    while (hasNextPage) {
+      const result = await run2({ query: q.query, variables: { ...q.variables, cursor } }).then(path_default(["data", "transactions"]));
+      if (result.edges && result.edges.length) {
+        edges2 = edges2.concat(result.edges);
+        cursor = result.edges[result.edges.length - 1].cursor;
+      }
+      hasNextPage = result.pageInfo.hasNextPage;
+    }
+    return edges2;
+  };
+
   // src/domain/stamps.js
   var import_crocks = __toESM(require_crocks());
   var { of, ask, lift } = (0, import_crocks.ReaderT)(import_crocks.Async);
   var STAMP_CONTRACT = "FMRHYgSijiUNBrFy-XqyNNXenHsCV0ThR4lGAPO4chA";
   var stampsByAddress = (addr) => of(addr).chain((addr2) => ask(
-    ({ query: query2 }) => import_crocks.Async.fromPromise(query2)(
+    ({ query: query2, gql: gql2 }) => import_crocks.Async.fromPromise(query2)(
       STAMP_CONTRACT,
       [
         "compose",
@@ -11933,12 +12792,66 @@
         ["values"],
         ["prop", "stamps"]
       ]
+    ).chain(
+      (stamps) => import_crocks.Async.of(stamps).map(pluck_default("asset")).map(buildQuery).chain(import_crocks.Async.fromPromise(gql2)).map(pluck_default("node")).map(map_default(toStamp)).map(map_default((s) => {
+        s.timestamp = propOr_default(0, "timestamp", find_default(propEq_default("asset", s.id), stamps));
+        return s;
+      }))
     )
   )).chain(lift);
+  function toStamp(node) {
+    const getTag = (name) => compose(
+      propOr_default("", "value"),
+      find_default(propEq_default("name", name))
+    )(node.tags);
+    const getTopics = () => compose(
+      pluck_default("value"),
+      filter_default((t2) => /^Topic:/.test(t2.name))
+    )(node.tags);
+    return {
+      id: node.id,
+      owner: node.owner.address,
+      title: getTag("Title") || getTag("Page-Title"),
+      description: getTag("Description"),
+      type: getTag("Type"),
+      topics: getTopics()
+    };
+  }
+  function buildQuery(assets) {
+    return {
+      query: `query($cursor: String, $assets: [ID!]) {
+    transactions(
+      first: 100,
+      after: $cursor,
+      ids: $assets) {
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          owner {
+            address
+          }
+          tags {
+            name
+            value
+          }
+        }
+      }
+    }
+  }`,
+      variables: {
+        assets,
+        cursor: ""
+      }
+    };
+  }
 
   // src/store.js
   var app = readable({
-    stamps: (addr) => stampsByAddress(addr).runWith({ query }).toPromise()
+    stamps: (addr) => stampsByAddress(addr).runWith({ query, gql }).toPromise()
   });
 
   // src/Widget.svelte
@@ -11951,8 +12864,8 @@
     return { c: noop, m: noop, p: noop, d: noop };
   }
   function create_then_block(ctx) {
-    let div;
-    let div_class_value;
+    let ul;
+    let ul_class_value;
     let each_value = ctx[2];
     let each_blocks = [];
     for (let i2 = 0; i2 < each_value.length; i2 += 1) {
@@ -11960,16 +12873,16 @@
     }
     return {
       c() {
-        div = element("div");
+        ul = element("ul");
         for (let i2 = 0; i2 < each_blocks.length; i2 += 1) {
           each_blocks[i2].c();
         }
-        attr(div, "class", div_class_value = tw("flex flex-col items-center"));
+        attr(ul, "class", ul_class_value = tw("relative divide-y divide-gray-200 border-b border-gray-200"));
       },
       m(target, anchor) {
-        insert(target, div, anchor);
+        insert(target, ul, anchor);
         for (let i2 = 0; i2 < each_blocks.length; i2 += 1) {
-          each_blocks[i2].m(div, null);
+          each_blocks[i2].m(ul, null);
         }
       },
       p(ctx2, dirty) {
@@ -11983,7 +12896,7 @@
             } else {
               each_blocks[i2] = create_each_block(child_ctx);
               each_blocks[i2].c();
-              each_blocks[i2].m(div, null);
+              each_blocks[i2].m(ul, null);
             }
           }
           for (; i2 < each_blocks.length; i2 += 1) {
@@ -11994,31 +12907,110 @@
       },
       d(detaching) {
         if (detaching)
-          detach(div);
+          detach(ul);
         destroy_each(each_blocks, detaching);
       }
     };
   }
   function create_each_block(ctx) {
-    let div;
-    let t_value = ctx[3].asset + "";
+    let li;
+    let div3;
+    let div1;
+    let div0;
+    let h2;
+    let a2;
+    let t0_value = ctx[3].title + "";
+    let t0;
+    let a_href_value;
+    let h2_class_value;
+    let t1;
+    let p0;
+    let t2_value = ctx[3].description + "";
     let t2;
+    let p0_class_value;
+    let div0_class_value;
+    let div1_class_value;
+    let t3;
+    let div2;
+    let p1;
+    let t4;
+    let p1_class_value;
+    let t5;
+    let p2;
+    let t6_value = new Date(ctx[3].timestamp).toISOString() + "";
+    let t6;
+    let p2_class_value;
+    let div2_class_value;
+    let div3_class_value;
+    let t7;
+    let li_class_value;
     return {
       c() {
-        div = element("div");
-        t2 = text(t_value);
+        li = element("li");
+        div3 = element("div");
+        div1 = element("div");
+        div0 = element("div");
+        h2 = element("h2");
+        a2 = element("a");
+        t0 = text(t0_value);
+        t1 = space();
+        p0 = element("p");
+        t2 = text(t2_value);
+        t3 = space();
+        div2 = element("div");
+        p1 = element("p");
+        t4 = text("Date:");
+        t5 = space();
+        p2 = element("p");
+        t6 = text(t6_value);
+        t7 = space();
+        attr(a2, "rel", "noreferrer");
+        attr(a2, "target", "_blank");
+        attr(a2, "href", a_href_value = "https://arweave.net/" + ctx[3].id);
+        attr(h2, "class", h2_class_value = tw("text-xl font-bold"));
+        attr(p0, "class", p0_class_value = tw("text-[12px]"));
+        attr(div0, "class", div0_class_value = tw("flex-1 flex flex-col"));
+        attr(div1, "class", div1_class_value = tw("min-w-0 space-y-3"));
+        attr(p1, "class", p1_class_value = tw("text-[12px] text-bold"));
+        attr(p2, "class", p2_class_value = tw("text-[12px]"));
+        attr(div2, "class", div2_class_value = tw("flex-none flex flex-col"));
+        attr(div3, "class", div3_class_value = tw("flex items-center justify-between space-x-4"));
+        attr(li, "class", li_class_value = tw("relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6"));
       },
       m(target, anchor) {
-        insert(target, div, anchor);
-        append(div, t2);
+        insert(target, li, anchor);
+        append(li, div3);
+        append(div3, div1);
+        append(div1, div0);
+        append(div0, h2);
+        append(h2, a2);
+        append(a2, t0);
+        append(div0, t1);
+        append(div0, p0);
+        append(p0, t2);
+        append(div3, t3);
+        append(div3, div2);
+        append(div2, p1);
+        append(p1, t4);
+        append(div2, t5);
+        append(div2, p2);
+        append(p2, t6);
+        append(li, t7);
       },
       p(ctx2, dirty) {
-        if (dirty & 3 && t_value !== (t_value = ctx2[3].asset + ""))
-          set_data(t2, t_value);
+        if (dirty & 3 && t0_value !== (t0_value = ctx2[3].title + ""))
+          set_data(t0, t0_value);
+        if (dirty & 3 && a_href_value !== (a_href_value = "https://arweave.net/" + ctx2[3].id)) {
+          attr(a2, "href", a_href_value);
+        }
+        if (dirty & 3 && t2_value !== (t2_value = ctx2[3].description + ""))
+          set_data(t2, t2_value);
+        if (dirty & 3 && t6_value !== (t6_value = new Date(ctx2[3].timestamp).toISOString() + ""))
+          set_data(t6, t6_value);
       },
       d(detaching) {
         if (detaching)
-          detach(div);
+          detach(li);
       }
     };
   }

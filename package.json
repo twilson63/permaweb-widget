@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "crocks": "^0.12.4",
+    "ramda": "^0.28.0",
     "svelte": "^3.53.1",
     "twind": "^0.16.18"
   }
