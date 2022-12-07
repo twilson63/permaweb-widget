@@ -18,6 +18,7 @@
     "twind": "^0.16.18"
   },
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "deploy": "node deploy.mjs"
   }
 }

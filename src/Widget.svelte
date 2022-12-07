@@ -1,14 +1,20 @@
 <script>
-  import { tw } from "twind";
   import { format } from "date-fns";
   import { app } from "./store.js";
+  import { take } from "ramda";
+  import ArrowOut from "./arrow-out.svelte";
 
   export let address = "vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI";
+  export let limit = "10";
+
+  function tw(s) {
+    return s;
+  }
 </script>
 
 {#await $app.stamps(address) then stamps}
   <ul class={tw("relative divide-y divide-gray-200 border-b border-gray-200")}>
-    {#each stamps as stamp}
+    {#each take(Number(limit), stamps) as stamp}
       <li
         class={tw(
           "relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6"
@@ -16,19 +22,28 @@
       >
         <div class={tw("flex items-center justify-between space-x-4")}>
           <div class={tw("min-w-0 space-y-3")}>
-            <div class={tw("flex-none w-[600px] flex flex-col")}>
-              <h2 class={tw("text-xl font-bold")}>
+            <div class={tw("flex-initial flex flex-col")}>
+              <h2 class="text-xl font-bold">
                 <a
                   rel="noreferrer"
                   target="_blank"
-                  href="https://arweave.net/{stamp.id}">{stamp.title}</a
+                  href="https://arweave.net/{stamp.id}"
+                  class="flex"
                 >
+                  <span>{stamp.title}</span>
+                  <span class="ml-4"><ArrowOut /></span>
+                </a>
               </h2>
               <p class={tw("text-[12px]")}>
                 {stamp.description}
               </p>
+              <p class={tw("text-[12px]")}>
+                <span class="font-bold mr-2">Stamped:</span>
+                {format(new Date(stamp.timestamp), "M/dd/yyyy h:m aaa")}
+              </p>
             </div>
           </div>
+          <!--
           <div class={tw("hidden flex-none lg:flex flex-col")}>
             <p class={tw("text-[12px] font-bold")}>Asset:</p>
             <p class={tw("text-[12px] flex space-x-4")}>
@@ -56,17 +71,14 @@
               </a>
             </p>
           </div>
-          <div class={tw("hidden flex-none md:flex flex-col")}>
-            <p class={tw("text-[12px] font-bold")}>Stamps:</p>
-            <p class={tw("text-[12px] text-center")}>
-              {stamp.count}
-            </p>
-          </div>
-          <div class={tw("hidden flex-none md:flex flex-col")}>
-            <p class={tw("text-[12px] font-bold")}>Stamped:</p>
-            <p class={tw("text-[12px]")}>
-              {format(new Date(stamp.timestamp), "M/dd/yyyy h:m aaa")}
-            </p>
+        -->
+          <div class="flex-none hidden md:flex space-y-4">
+            <div class={tw("md:flex flex-col")}>
+              <p class={tw("text-[12px] font-bold")}>Stamps:</p>
+              <p class={tw("text-[12px] text-center")}>
+                {stamp.count}
+              </p>
+            </div>
           </div>
         </div>
       </li>
