@@ -6,13 +6,18 @@
   "author": "Tom Wilson <tom@hyper.io>",
   "license": "MIT",
   "devDependencies": {
+    "@bundlr-network/client": "^0.9.7",
     "esbuild": "^0.15.16",
     "esbuild-svelte": "^0.7.3"
   },
   "dependencies": {
     "crocks": "^0.12.4",
+    "date-fns": "^2.29.3",
     "ramda": "^0.28.0",
     "svelte": "^3.53.1",
     "twind": "^0.16.18"
+  },
+  "scripts": {
+    "build": "node build.mjs"
   }
 }

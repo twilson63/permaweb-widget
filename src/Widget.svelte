@@ -1,5 +1,6 @@
 <script>
   import { tw } from "twind";
+  import { format } from "date-fns";
   import { app } from "./store.js";
 
   export let address = "vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI";
@@ -15,7 +16,7 @@
       >
         <div class={tw("flex items-center justify-between space-x-4")}>
           <div class={tw("min-w-0 space-y-3")}>
-            <div class={tw("flex-1 flex flex-col")}>
+            <div class={tw("flex-none w-[600px] flex flex-col")}>
               <h2 class={tw("text-xl font-bold")}>
                 <a
                   rel="noreferrer"
@@ -28,10 +29,43 @@
               </p>
             </div>
           </div>
-          <div class={tw("flex-none flex flex-col")}>
-            <p class={tw("text-[12px] text-bold")}>Date:</p>
+          <div class={tw("hidden flex-none lg:flex flex-col")}>
+            <p class={tw("text-[12px] font-bold")}>Asset:</p>
+            <p class={tw("text-[12px] flex space-x-4")}>
+              <span>{stamp.id}</span>
+              <a
+                rel="noreferrer"
+                href="https://warp_hyper.arweave.dev/#/read/{stamp.id}"
+                target="_blank"
+                class={tw("ml-2")}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  class={tw("w-4 h-4")}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </a>
+            </p>
+          </div>
+          <div class={tw("hidden flex-none md:flex flex-col")}>
+            <p class={tw("text-[12px] font-bold")}>Stamps:</p>
+            <p class={tw("text-[12px] text-center")}>
+              {stamp.count}
+            </p>
+          </div>
+          <div class={tw("hidden flex-none md:flex flex-col")}>
+            <p class={tw("text-[12px] font-bold")}>Stamped:</p>
             <p class={tw("text-[12px]")}>
-              {new Date(stamp.timestamp).toISOString()}
+              {format(new Date(stamp.timestamp), "M/dd/yyyy h:m aaa")}
             </p>
           </div>
         </div>

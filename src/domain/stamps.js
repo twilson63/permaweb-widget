@@ -1,5 +1,5 @@
 import { Async, ReaderT } from 'crocks'
-import { compose, filter, find, map, propOr, propEq, pluck } from 'ramda'
+import { assoc, compose, filter, find, map, propOr, propEq, pluck } from 'ramda'
 
 const { of, ask, lift } = ReaderT(Async)
 
@@ -27,7 +27,27 @@ export const stampsByAddress = (addr) =>
             }))
 
         )
+        /**
+         * Need to get stamp count,
+         * this can be another query to the STAMP Contract, filtered by these
+         * assets, then grouped by asset, which should return all the stamp counts
+         * per asset that can then be merged with the stamp list.
+         * 
+         * This approach should be an optimum way to execute on the server so that
+         * compute does not have to be done locally.
+         */
+        .chain(stamps =>
+          Async.fromPromise(query)(STAMP_CONTRACT, ['compose',
+            ['mapObjIndexed', ['length']],
+            ['groupBy', ['prop', 'asset']],
+            ['values'],
+            ['prop', 'stamps']
+          ])
+            .map(counts => {
+              return map(s => assoc('count', counts[s.id], s), stamps)
+            })
 
+        )
 
     ))
     .chain(lift)

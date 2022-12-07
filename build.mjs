@@ -9,5 +9,6 @@ esbuild
     outfile: "example/widget.js",
     plugins: [sveltePlugin()],
     logLevel: "info",
+    format: "esm"
   })
   .catch(() => process.exit(1));
